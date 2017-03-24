@@ -52,6 +52,16 @@ export class TaskPromiseService {
             .catch( this.handleError );
   }
 
+  deleteTask(task: Task): Promise<Task> {
+    const url = `${this.tasksUrl}/${task.id}`;
+
+    return this.http.delete(url)
+            .toPromise()
+            .then( response => <Task>response.json() )
+            .catch( this.handleError );
+}
+
+
 
 
 

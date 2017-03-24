@@ -33,4 +33,11 @@ export class TaskListComponent implements OnInit {
     task.done = true;
     this.tasksService.updateTask(task);
   }
+
+  deleteTask(task: Task) {
+    this.tasksService.deleteTask(task)
+      .then(() => this.tasks = this.tasks.filter(t => t !== task))
+      .catch(err => console.log(err));
+  }
+
 }

@@ -5,6 +5,7 @@
 
   <task *ngFor='let task of tasks'
     [task]="task"
-    (onComplete)="completeTask($event)">
+    (onComplete)="completeTask($event)"
+    (onDelete)="deleteTask($event)">
   </task>
 </div>

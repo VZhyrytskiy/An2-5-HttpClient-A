@@ -9,8 +9,9 @@ import { Task } from './../../models/task';
   styleUrls: ['task.component.css']
 })
 export class TaskComponent {
-  @Input()  task: Task;
+  @Input() task: Task;
   @Output() onComplete = new EventEmitter<Task>();
+  @Output() onDelete = new EventEmitter<Task>();
 
   constructor(
     private router: Router
@@ -18,6 +19,10 @@ export class TaskComponent {
 
   completeTask(event: any): void {
     this.onComplete.emit(this.task);
+  }
+
+  deleteTask(task: Task) {
+    this.onDelete.emit(task);
   }
 
   editTask(task: Task) {
