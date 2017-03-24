@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Task } from './../../models/task';
 import { TaskArrayService } from './../services/task-array.service';
+import { TaskPromiseService } from './..';
 
 @Component({
   selector: 'task-form',
@@ -16,6 +17,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private tasksService: TaskArrayService,
+    private tasksPromiseService: TaskPromiseService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -28,7 +30,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
       // NaN - for new task, id - for edit
       if (id) {
-        this.tasksService.getTask(id)
+        this.tasksPromiseService.getTask(id)
           .then(task => this.task = Object.assign({}, task))
           .catch((err) => console.log(err));
       }
