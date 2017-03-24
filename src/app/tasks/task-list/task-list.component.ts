@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Task } from './../../models/task';
-import { TaskArrayService } from './../services/task-array.service';
+import { TaskPromiseService } from './../';
 
 @Component({
   selector: 'task-list',
@@ -12,7 +12,7 @@ export class TaskListComponent implements OnInit {
   tasks: Array<Task>;
 
   constructor(
-    private tasksService: TaskArrayService) { }
+    private tasksService: TaskPromiseService) { }
 
   ngOnInit() {
     this.tasksService.getTasks()

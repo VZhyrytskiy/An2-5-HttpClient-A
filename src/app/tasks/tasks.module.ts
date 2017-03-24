@@ -4,7 +4,13 @@ import { CommonModule } from '@angular/common';
 
 import { TasksRoutingModule } from './tasks.routing.module';
 
-import { TaskListComponent, TaskComponent, TaskFormComponent, TaskArrayService } from '.';
+import {
+  TaskListComponent,
+  TaskComponent,
+  TaskFormComponent,
+  TaskArrayService,
+  TaskPromiseService
+} from '.';
 
 
 @NgModule({
@@ -19,7 +25,8 @@ import { TaskListComponent, TaskComponent, TaskFormComponent, TaskArrayService }
     TasksRoutingModule
   ],
   providers: [
-    TaskArrayService
+    TaskArrayService,
+    TaskPromiseService
   ]
 })
 export class TasksModule {}
