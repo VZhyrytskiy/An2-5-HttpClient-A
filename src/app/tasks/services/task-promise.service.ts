@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Task } from './../../models/task';
@@ -25,6 +25,21 @@ export class TaskPromiseService {
             .then( response => <Task>response.json() )
             .catch(this.handleError);
   }
+
+  updateTask(task: Task): Promise<Task> {
+    const url = `${this.tasksUrl}/${task.id}`,
+        body = JSON.stringify(task),
+        headers = new Headers({'Content-Type': 'application/json'}),
+        options = new RequestOptions();
+
+    options.headers = headers;
+
+    return this.http.put(url, body, options)
+            .toPromise()
+            .then( response => <Task>response.json() )
+            .catch( this.handleError );
+  }
+
 
 
   private handleError(error: any): Promise<any> {
