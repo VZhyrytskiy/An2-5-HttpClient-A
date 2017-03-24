@@ -40,6 +40,19 @@ export class TaskPromiseService {
             .catch( this.handleError );
   }
 
+  createTask(task: Task): Promise<Task> {
+    const url = this.tasksUrl,
+        body = JSON.stringify(task),
+        headers = new Headers({'Content-Type': 'application/json'}),
+        options = new RequestOptions({headers: headers});
+
+    return this.http.post(url, body, options)
+            .toPromise()
+            .then( response => <Task>response.json() )
+            .catch( this.handleError );
+  }
+
+
 
 
   private handleError(error: any): Promise<any> {

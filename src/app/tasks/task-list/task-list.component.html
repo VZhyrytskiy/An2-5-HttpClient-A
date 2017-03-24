@@ -1,8 +1,10 @@
-<task 
-  *ngFor='let task of tasks' 
-  [task]="task"
-  (onComplete)="completeTask($event)">
-</task>
+<div>
+  <button class="btn btn-primary"
+    (click)="createTask()">New Task</button>
+  <br><br>
 
-
-
+  <task *ngFor='let task of tasks'
+    [task]="task"
+    (onComplete)="completeTask($event)">
+  </task>
+</div>
