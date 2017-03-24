@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { HttpModule, JsonpModule } from '@angular/http';
 
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
@@ -31,6 +32,8 @@ import { AuthGuard } from './guards/auth.guard';
     TasksModule,
     UsersModule,
     RouterModule,
+    HttpModule,
+    JsonpModule,
     AppRoutingModule
   ],
   providers: [
