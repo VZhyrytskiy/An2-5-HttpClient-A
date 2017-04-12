@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import 'rxjs/add/operator/switchMap';
 
 import { User } from './../../models/user';
-import { UserArrayService } from './../services/user-array.service';
+import { UserArrayService, UserObservableService } from './../';
 
 @Component({
   templateUrl: 'user-list.component.html',
@@ -12,22 +13,28 @@ import { UserArrayService } from './../services/user-array.service';
 })
 export class UserListComponent implements OnInit, OnDestroy {
   users: Array<User>;
+  errorMessage: string;
 
+  private sub: Subscription[] = [];
   private editedUser: User;
 
   constructor(
-    private usersService: UserArrayService,
+    private userArrayService: UserArrayService,
+    private userObservableService: UserObservableService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.usersService.getUsers()
-      .then(users => this.users = users)
-      .catch((err) => console.log(err));
+    const sub = this.userObservableService.getUsers()
+      .subscribe(
+        users => this.users = users,
+        error => this.errorMessage = <any>error
+      );
+    this.sub.push(sub);
 
     // listen id from UserFormComponent
     this.route.params
-      .switchMap((params: Params) => this.usersService.getUser(+params['id']))
+      .switchMap((params: Params) => this.userArrayService.getUser(+params['id']))
       .subscribe(
         (user: User) => {
           this.editedUser = Object.assign({}, user);
@@ -39,6 +46,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.sub.forEach(sub => sub.unsubscribe());
   }
 
   isEdited(user: User) {
