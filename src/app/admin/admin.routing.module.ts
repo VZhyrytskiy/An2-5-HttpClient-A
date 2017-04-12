@@ -5,7 +5,7 @@ import { AdminComponent, AdminDashboardComponent, ManageTasksComponent, ManageUs
 
 import { AuthGuard } from './../guards/auth.guard';
 
-const adminRoutes: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
@@ -28,7 +28,8 @@ export let adminRouterComponents = [AdminComponent, AdminDashboardComponent, Man
 
 @NgModule({
   imports: [
-    RouterModule.forChild(adminRoutes)
-  ]
+    RouterModule.forChild(routes)
+  ],
+  exports: [RouterModule]
 })
 export class AdminRoutingModule { }

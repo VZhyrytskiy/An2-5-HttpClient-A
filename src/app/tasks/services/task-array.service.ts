@@ -1,34 +1,33 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
 
 import { Task } from './../../models/task';
 
-let taskList = [
+const taskList = [
   new Task(1, 'Estimate', 1, 8, 8, true),
   new Task(2, 'Create', 2, 8, 4, false),
   new Task(3, 'Deploy', 3, 8, 0, false)
 ];
 
-let taskListPromise = Promise.resolve(taskList);
+const taskListPromise = Promise.resolve(taskList);
 
 @Injectable()
 export class TaskArrayService {
 
-  getTasks() {
+  getTasks(): Promise<Task[]> {
     return taskListPromise;
   }
 
-  getTask(id: number) {
+  getTask(id: number | string): Promise<Task> {
     return this.getTasks()
-      .then(tasks => tasks.find(task => task.id === id))
+      .then(tasks => tasks.find(task => task.id === +id))
       .catch(() => Promise.reject('Error in getTask method'));
   }
 
-  addTask(task: Task) {
+  addTask(task: Task): void {
     taskList.push(task);
   }
 
-  updateTask(task: Task) {
+  updateTask(task: Task): void {
     let i = -1;
 
     taskList.forEach((item, index) => {
@@ -41,5 +40,9 @@ export class TaskArrayService {
     if (i > -1) {
       taskList.splice(i, 1, task);
     }
+  }
+
+  completeTask(task): void {
+    task.done = true;
   }
 }

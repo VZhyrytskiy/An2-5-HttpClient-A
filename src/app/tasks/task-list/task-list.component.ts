@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Task } from './../../models/task';
-import { TaskPromiseService } from './../';
+import { TaskArrayService, TaskPromiseService } from './../';
 
 @Component({
-  selector: 'task-list',
   templateUrl: 'task-list.component.html',
   styleUrls: ['task-list.component.css']
 })
@@ -13,12 +12,13 @@ export class TaskListComponent implements OnInit {
   tasks: Array<Task>;
 
   constructor(
-    private tasksService: TaskPromiseService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private taskArrayService: TaskArrayService,
+    private taskPromiseService: TaskPromiseService)
+  { }
 
   ngOnInit() {
-    this.tasksService.getTasks()
+    this.taskPromiseService.getTasks()
       .then(tasks => this.tasks = tasks)
       .catch((err) => console.log(err));
   }
@@ -31,7 +31,7 @@ export class TaskListComponent implements OnInit {
 
   completeTask(task: Task): void {
     task.done = true;
-    this.tasksService.updateTask(task);
+    this.taskPromiseService.updateTask(task);
   }
 
   deleteTask(task: Task) {
