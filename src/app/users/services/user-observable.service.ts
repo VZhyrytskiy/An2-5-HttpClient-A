@@ -12,15 +12,18 @@ export class UserObservableService {
 
   constructor(
     private http: Http
-  ) {}
+  ) { }
 
   getUsers(): Observable<User[]> {
     return this.http.get(this.usersUrl)
-            .map( this.handleData )
-            .catch( this.handleError );
+      .map(this.handleData)
+      .catch(this.handleError);
   }
 
-  getUser(id: number) {
+  getUser(id: number): Observable<User> {
+    return this.http.get(`${this.usersUrl}/${id}`)
+      .map(this.handleData)
+      .catch(this.handleError);
 
   }
 
@@ -43,10 +46,10 @@ export class UserObservableService {
 
   private handleError(error: any) {
     let errMsg = (error.message)
-                    ? error.message
-                    : error.status
-                        ? `${error.status} - ${error.statusText}`
-                        : 'Server error';
+      ? error.message
+      : error.status
+        ? `${error.status} - ${error.statusText}`
+        : 'Server error';
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
