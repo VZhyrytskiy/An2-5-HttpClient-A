@@ -1,33 +1,32 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
 
 import { User } from './../../models/user';
 
-let userList = [
+const userList = [
   new User(1, 'Anna', 'Borisova'),
   new User(2, 'Boris', 'Vlasov'),
   new User(3, 'Gennadiy', 'Dmitriev')
 ];
 
-let userListPromise = Promise.resolve(userList);
+const userListPromise = Promise.resolve(userList);
 
 @Injectable()
 export class UserArrayService {
-  getUsers() {
+  getUsers(): Promise<User[]> {
     return userListPromise;
   }
 
-  getUser(id: number) {
+  getUser(id: number | string): Promise<User> {
     return this.getUsers()
-      .then(users => users.find(user => user.id === id))
+      .then(users => users.find(user => user.id === +id))
       .catch(() => Promise.reject('Error in getUser method'));
   }
 
-  addUser(user: User) {
+  addUser(user: User): void {
     userList.push(user);
   }
 
-  updateUser(user: User) {
+  updateUser(user: User): void {
     let i = -1;
 
     userList.forEach((item, index) => {
