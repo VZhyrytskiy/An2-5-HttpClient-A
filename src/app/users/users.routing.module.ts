@@ -1,4 +1,4 @@
-import { NgModule }  from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { UsersComponent, UserListComponent, UserFormComponent } from '.';
@@ -6,15 +6,11 @@ import { UsersComponent, UserListComponent, UserFormComponent } from '.';
 import { CanDeactivateGuard } from './../guards/can-deactivate.guard';
 import { UserResolveGuard } from './../guards/user-resolve.guard';
 
-const usersRoutes: Routes = [
+const routes: Routes = [
   {
-    path: 'users',
+    path: '',
     component: UsersComponent,
     children: [
-      {
-        path: '',
-        component: UserListComponent
-      },
       {
         path: 'add',
         component: UserFormComponent
@@ -26,6 +22,10 @@ const usersRoutes: Routes = [
         resolve: {
           user: UserResolveGuard
         }
+      },
+      {
+        path: '',
+        component: UserListComponent
       }
     ]
   }
@@ -35,7 +35,13 @@ export let usersRouterComponents = [UsersComponent, UserListComponent, UserFormC
 
 @NgModule({
   imports: [
-    RouterModule.forChild(usersRoutes)
+    RouterModule.forChild(routes)
+  ],
+  exports: [
+    RouterModule
+  ],
+  providers: [
+    UserResolveGuard
   ]
 })
 export class UsersRoutingModule { }
