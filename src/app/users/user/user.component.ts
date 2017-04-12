@@ -16,12 +16,12 @@ export class UserComponent {
     private route: ActivatedRoute
   ) { }
 
-  editUser(user: User) {
-    let link = ['users/edit', user.id];
+  editUser() {
+    const link = ['/users/edit', this.user.id];
     this.router.navigate(link);
 
     // or
-    // let link = ['edit', user.id];
+    // const link = ['edit', this.user.id];
     // this.router.navigate(link, {relativeTo: this.route});
   }
 }

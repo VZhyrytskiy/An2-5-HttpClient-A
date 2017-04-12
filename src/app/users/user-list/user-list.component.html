@@ -1,6 +1,7 @@
-<user 
-  *ngFor='let user of users' 
-  [user]="user">
+<user
+  *ngFor='let user of users'
+  [user]="user"
+  [class.edited]="isEdited(user)">
 </user>
 
 
