@@ -14,7 +14,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   task: Task;
 
   constructor(
-    private tasksService: TaskArrayService,
+    private taskArrayService: TaskArrayService,
     private taskPromiseService: TaskPromiseService,
     private router: Router,
     private route: ActivatedRoute
@@ -46,10 +46,10 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     );
 
     if (task.id) {
-      this.tasksService.updateTask(task);
+      this.taskArrayService.updateTask(task);
     }
     else {
-      this.tasksService.addTask(task);
+      this.taskArrayService.addTask(task);
     }
 
     this.router.navigate(['/home']);
