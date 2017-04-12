@@ -2,13 +2,19 @@
 <nav>
   <ul class="nav nav-tabs">
     <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      <a [routerLink]="['./']" preserveQueryParams preserveFragment>Dashboard</a>
+      <a routerLink="./"
+         queryParamsHandling="preserve"
+         preserveFragment>Dashboard</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['./tasks']" preserveQueryParams preserveFragment>Manage Tasks</a>
+      <a routerLink="./tasks"
+         queryParamsHandling="preserve"
+         preserveFragment>Manage Tasks</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['./users']" preserveQueryParams preserveFragment>Manage Users</a>
+      <a routerLink="./users"
+         queryParamsHandling="preserve"
+         preserveFragment>Manage Users</a>
     </li>
   </ul>
 </nav>

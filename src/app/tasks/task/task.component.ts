@@ -20,8 +20,8 @@ export class TaskComponent {
     this.onComplete.emit(this.task);
   }
 
-  editTask(task: Task) {
-    let link = ['edit', task.id];
+  editTask() {
+    const link = ['/edit', this.task.id];
     this.router.navigate(link);
   }
 }
