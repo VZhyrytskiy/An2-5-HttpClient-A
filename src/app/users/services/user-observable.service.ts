@@ -27,13 +27,33 @@ export class UserObservableService {
 
   }
 
-  updateUser(user: User) {
+  updateUser(user: User): Observable<User> {
+     const url = `${this.usersUrl}/${user.id}`,
+        body = JSON.stringify(user),
+        headers = new Headers({'Content-Type': 'application/json'}),
+        options = new RequestOptions();
 
+    options.headers = headers;
+
+    return this.http.put(url, body, options)
+            .map( this.handleData )
+            .catch(this.handleError);
   }
 
-  createUser(user: User) {
 
+  createUser(user: User): Observable<User> {
+    const url = this.usersUrl,
+        body = JSON.stringify(user),
+        headers = new Headers({'Content-Type': 'application/json'}),
+        options = new RequestOptions();
+
+    options.headers = headers;
+
+    return this.http.post(url, body, options)
+            .map( this.handleData )
+            .catch( this.handleError );
   }
+
 
   deleteUser(user: User) {
 

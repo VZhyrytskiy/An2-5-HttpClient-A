@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 import { User } from './../../models/user';
 import { DialogService } from './../../services/dialog.service';
-import { UserArrayService } from './../services/user-array.service';
+import { UserObservableService } from './..';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -15,8 +16,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
   user: User;
   oldUser: User;
 
+  private sub: Subscription[] = [];
+
   constructor(
-    private usersService: UserArrayService,
+    private userObservableService: UserObservableService,
     private route: ActivatedRoute,
     private router: Router,
     public dialogService: DialogService
@@ -32,6 +35,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.sub.forEach(sub => sub.unsubscribe());
   }
 
   saveUser() {
@@ -41,17 +45,20 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.user.lastName
     );
 
-    if (user.id) {
-      this.usersService.updateUser(user);
-      this.oldUser = this.user;
-      // optional parameter: http://localhost:4200/users;id=2
-      this.router.navigate(['users', { id: user.id }]);
-    }
-    else {
-      this.usersService.addUser(user);
-      this.oldUser = this.user;
-      this.router.navigate(['users']);
-    }
+    const method = user.id ? 'updateUser' : 'createUser';
+    const sub = this.userObservableService[method](user)
+      .subscribe(
+        () => {
+          this.oldUser = this.user;
+          user.id
+            // optional parameter: http://localhost:4200/users;id=2
+            ? this.router.navigate(['users', { id: user.id }])
+            : this.router.navigate(['users']);
+        },
+        error => console.log(error)
+      );
+    this.sub.push(sub);
+
   }
 
   goBack() {
