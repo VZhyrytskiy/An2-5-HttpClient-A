@@ -24,7 +24,7 @@ export class TaskListComponent implements OnInit {
   }
 
   createTask() {
-    const link = ['add'];
+    const link = ['/add'];
     this.router.navigate(link);
   }
 
