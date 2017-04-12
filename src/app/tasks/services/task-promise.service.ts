@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import 'rxjs/add/operator/toPromise';
+import './../../services/rxjs-extensions';
 
 import { Task } from './../../models/task';
 
@@ -39,8 +39,6 @@ export class TaskPromiseService {
             .then( response => <Task>response.json() )
             .catch( this.handleError );
   }
-
-
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
