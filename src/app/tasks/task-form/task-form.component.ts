@@ -4,8 +4,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 
 import { Task } from './../../models/task';
-import { TaskArrayService } from './../services/task-array.service';
-import { TaskPromiseService } from './..';
+import { TaskArrayService, TaskPromiseService } from './..';
 
 @Component({
   templateUrl: 'task-form.component.html',
@@ -16,7 +15,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private tasksService: TaskArrayService,
-    private tasksPromiseService: TaskPromiseService,
+    private taskPromiseService: TaskPromiseService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -27,7 +26,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     // it is not necessary to save subscription to route.params
     // it handles automatically
     this.route.params
-      .switchMap((params: Params) => this.tasksPromiseService.getTask(+params['id']))
+      .switchMap((params: Params) => this.taskPromiseService.getTask(+params['id']))
       .subscribe(
         task => this.task = Object.assign({}, task),
         err => console.log(err)
