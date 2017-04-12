@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Task } from './../../models/task';
-import { TaskArrayService } from './../';
-import { TaskPromiseService } from './../';
+import { TaskArrayService, TaskPromiseService } from './../';
 
 @Component({
   templateUrl: 'task-list.component.html',
