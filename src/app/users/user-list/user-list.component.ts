@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -6,16 +6,18 @@ import 'rxjs/add/operator/switchMap';
 
 import { User } from './../../models/user';
 import { UserArrayService, UserObservableService } from './../';
+import { AutoUnsubscribe } from './../../decorators';
 
 @Component({
   templateUrl: 'user-list.component.html',
   styleUrls: ['user-list.component.css']
 })
-export class UserListComponent implements OnInit, OnDestroy {
+@AutoUnsubscribe('subscriptions')
+export class UserListComponent implements OnInit {
   users: Array<User>;
   errorMessage: string;
 
-  private sub: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
   private editedUser: User;
 
   constructor(
@@ -30,7 +32,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         users => this.users = users,
         error => this.errorMessage = <any>error
       );
-    this.sub.push(sub);
+    this.subscriptions.push(sub);
 
     // listen id from UserFormComponent
     this.route.params
@@ -43,10 +45,6 @@ export class UserListComponent implements OnInit, OnDestroy {
         (err) => console.log(err)
       );
 
-  }
-
-  ngOnDestroy() {
-    this.sub.forEach(sub => sub.unsubscribe());
   }
 
   isEdited(user: User) {

@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { User } from './../../models/user';
 import { DialogService } from './../../services/dialog.service';
 import { UserObservableService } from './..';
+import { AutoUnsubscribe } from './../../decorators';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -12,7 +13,8 @@ import 'rxjs/add/operator/switchMap';
   templateUrl: 'user-form.component.html',
   styleUrls: ['user-form.component.css'],
 })
-export class UserFormComponent implements OnInit, OnDestroy {
+@AutoUnsubscribe()
+export class UserFormComponent implements OnInit {
   user: User;
   oldUser: User;
 
@@ -32,10 +34,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.user = Object.assign({}, data.user);
       this.oldUser = data.user;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.forEach(sub => sub.unsubscribe());
   }
 
   saveUser() {
