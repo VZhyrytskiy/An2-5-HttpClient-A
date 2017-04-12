@@ -55,9 +55,14 @@ export class UserObservableService {
   }
 
 
-  deleteUser(user: User) {
+  deleteUser(user: User): Observable<User> {
+    const url = `${this.usersUrl}/${user.id}`;
 
+    return this.http.delete(url)
+      .map( this.handleData )
+      .catch(this.handleError);
   }
+
 
   private handleData(response: Response) {
     const body = response.json();
