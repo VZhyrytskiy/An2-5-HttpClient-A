@@ -21,8 +21,8 @@ export class TaskComponent {
     this.onComplete.emit(this.task);
   }
 
-  deleteTask(task: Task) {
-    this.onDelete.emit(task);
+  deleteTask() {
+    this.onDelete.emit(this.task);
   }
 
   editTask() {
