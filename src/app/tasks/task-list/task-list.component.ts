@@ -4,7 +4,6 @@ import { Task } from './../../models/task';
 import { TaskPromiseService } from './../';
 
 @Component({
-  selector: 'task-list',
   templateUrl: 'task-list.component.html',
   styleUrls: ['task-list.component.css']
 })
@@ -21,6 +20,6 @@ export class TaskListComponent implements OnInit {
   }
 
   completeTask(task: Task): void {
-    task.done = true;
+    this.tasksService.completeTask(task);
   }
 }
