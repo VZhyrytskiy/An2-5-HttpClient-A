@@ -1,19 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { ActivatedRoute, Params } from '@angular/router';
+
+import 'rxjs/add/operator/switchMap';
 
 import { User } from './../../models/user';
 import { UserArrayService } from './../services/user-array.service';
 
 @Component({
-  selector: 'user-list',
   templateUrl: 'user-list.component.html',
   styleUrls: ['user-list.component.css']
 })
 export class UserListComponent implements OnInit, OnDestroy {
   users: Array<User>;
-  private selectedUserId: number;
-  private sub: Subscription;
+
+  private editedUser: User;
 
   constructor(
     private usersService: UserArrayService,
@@ -26,18 +26,25 @@ export class UserListComponent implements OnInit, OnDestroy {
       .catch((err) => console.log(err));
 
     // listen id from UserFormComponent
-    this.sub = this.route.params
-      .subscribe(params => {
-        let id = +params['id'];
-        if (id) {
-          this.selectedUserId = +params['id'];
-          console.log(`Last time you edit user with id ${this.selectedUserId}`);
-        }
-      });
+    this.route.params
+      .switchMap((params: Params) => this.usersService.getUser(+params['id']))
+      .subscribe(
+        (user: User) => {
+          this.editedUser = Object.assign({}, user);
+          console.log(`Last time you edit user ${JSON.stringify(this.editedUser)}`);
+        },
+        (err) => console.log(err)
+      );
 
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+  }
+
+  isEdited(user: User) {
+    if (this.editedUser) {
+      return user.id === this.editedUser.id;
+    }
+    return false;
   }
 }

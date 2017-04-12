@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 import { User } from './../../models/user';
-import { DialogService }  from './../../services/dialog.service';
+import { DialogService } from './../../services/dialog.service';
 import { UserArrayService } from './../services/user-array.service';
 
+import 'rxjs/add/operator/switchMap';
+
 @Component({
-  selector: 'user-form',
   templateUrl: 'user-form.component.html',
   styleUrls: ['user-form.component.css'],
 })
@@ -34,8 +35,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   saveUser() {
-    console.log('save')
-    let user = new User(
+    const user = new User(
       this.user.id,
       this.user.firstName,
       this.user.lastName
@@ -45,7 +45,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.usersService.updateUser(user);
       this.oldUser = this.user;
       // optional parameter: http://localhost:4200/users;id=2
-      this.router.navigate(['users', {id: user.id}]);
+      this.router.navigate(['users', { id: user.id }]);
     }
     else {
       this.usersService.addUser(user);
@@ -55,7 +55,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-     this.router.navigate(['./../../'], { relativeTo: this.route});
+    this.router.navigate(['./../../'], { relativeTo: this.route });
   }
 
   canDeactivate(): Promise<boolean> | boolean {

@@ -4,7 +4,6 @@ import { Observable }         from 'rxjs/Observable';
 import './../../services/rxjs-extensions';
 
 @Component({
-  selector: 'admin-dashboard',
   templateUrl: 'admin-dashboard.component.html',
   styleUrls: ['admin-dashboard.component.css']
 })
