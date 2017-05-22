@@ -24,7 +24,7 @@ export class UserFormComponent implements OnInit {
     private userObservableService: UserObservableService,
     private route: ActivatedRoute,
     private router: Router,
-    public dialogService: DialogService
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -56,7 +56,6 @@ export class UserFormComponent implements OnInit {
         error => console.log(error)
       );
     this.sub.push(sub);
-
   }
 
   goBack() {
