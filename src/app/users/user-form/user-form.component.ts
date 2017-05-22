@@ -22,7 +22,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     private userObservableService: UserObservableService,
     private route: ActivatedRoute,
     private router: Router,
-    public dialogService: DialogService
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -58,7 +58,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
         error => console.log(error)
       );
     this.sub.push(sub);
-
   }
 
   goBack() {
