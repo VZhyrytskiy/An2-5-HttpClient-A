@@ -16,18 +16,18 @@ export class UserListComponent implements OnInit, OnDestroy {
   private editedUser: User;
 
   constructor(
-    private usersService: UserArrayService,
+    private userArrayService: UserArrayService,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.usersService.getUsers()
+    this.userArrayService.getUsers()
       .then(users => this.users = users)
       .catch((err) => console.log(err));
 
     // listen id from UserFormComponent
     this.route.params
-      .switchMap((params: Params) => this.usersService.getUser(+params['id']))
+      .switchMap((params: Params) => this.userArrayService.getUser(+params['id']))
       .subscribe(
         (user: User) => {
           this.editedUser = Object.assign({}, user);
