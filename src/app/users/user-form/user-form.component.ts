@@ -16,10 +16,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
   oldUser: User;
 
   constructor(
-    private usersService: UserArrayService,
+    private userArrayService: UserArrayService,
     private route: ActivatedRoute,
     private router: Router,
-    public dialogService: DialogService
+    private dialogService: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -42,13 +42,15 @@ export class UserFormComponent implements OnInit, OnDestroy {
     );
 
     if (user.id) {
-      this.usersService.updateUser(user);
+      this.userArrayService.updateUser(user);
+      // if success
       this.oldUser = this.user;
       // optional parameter: http://localhost:4200/users;id=2
       this.router.navigate(['users', { id: user.id }]);
     }
     else {
-      this.usersService.addUser(user);
+      this.userArrayService.addUser(user);
+      // if success
       this.oldUser = this.user;
       this.router.navigate(['users']);
     }
