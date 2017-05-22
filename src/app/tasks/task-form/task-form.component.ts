@@ -31,7 +31,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
         task => this.task = Object.assign({}, task),
         err => console.log(err)
     );
-
   }
 
   ngOnDestroy(): void {
