@@ -14,8 +14,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   task: Task;
 
   constructor(
-    private tasksService: TaskArrayService,
     private router: Router,
+    private taskArrayService: TaskArrayService,
     private route: ActivatedRoute
   ) { }
 
@@ -25,7 +25,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     // it is not necessary to save subscription to route.params
     // it handles automatically
     this.route.params
-      .switchMap((params: Params) => this.tasksService.getTask(+params['id']))
+      .switchMap((params: Params) => this.taskArrayService.getTask(+params['id']))
       .subscribe(
         task => this.task = Object.assign({}, task),
         err => console.log(err)
@@ -45,10 +45,10 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     );
 
     if (task.id) {
-      this.tasksService.updateTask(task);
+      this.taskArrayService.updateTask(task);
     }
     else {
-      this.tasksService.addTask(task);
+      this.taskArrayService.addTask(task);
     }
 
     this.router.navigate(['/home']);

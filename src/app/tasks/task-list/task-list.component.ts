@@ -11,15 +11,16 @@ export class TaskListComponent implements OnInit {
   tasks: Array<Task>;
 
   constructor(
-    private tasksService: TaskArrayService) { }
+    private taskArrayService: TaskArrayService) { }
 
   ngOnInit() {
-    this.tasksService.getTasks()
+    console.log(this.tasks);
+    this.taskArrayService.getTasks()
       .then(tasks => this.tasks = tasks)
       .catch((err) => console.log(err));
   }
 
   completeTask(task: Task): void {
-    this.tasksService.completeTask(task);
+    this.taskArrayService.completeTask(task);
   }
 }
