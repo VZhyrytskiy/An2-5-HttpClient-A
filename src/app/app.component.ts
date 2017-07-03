@@ -4,11 +4,11 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
-  selector: 'todo-app',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css'],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
 })
-export class TodoAppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(
