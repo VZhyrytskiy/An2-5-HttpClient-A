@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit {
   }
 
   createUser() {
-    const link = ['/add'];
+    const link = ['/users/add'];
     this.router.navigate(link);
   }
 
