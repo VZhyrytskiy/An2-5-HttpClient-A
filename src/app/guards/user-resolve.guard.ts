@@ -16,11 +16,15 @@ export class UserResolveGuard implements Resolve<User> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<User> {
     const id = +route.params['id'];
-
-    return this.userObservableService.getUser(id)
-      .catch(() => {
-        this.router.navigate(['/users']);
-        return Observable.of(null);
-      });
+    if (id) {
+      return this.userObservableService.getUser(id)
+        .catch(() => {
+          this.router.navigate(['/users']);
+          return Observable.of(null);
+        });
+    }
+    else {
+      return Observable.of(new User(null, '', ''));
+    }
   }
 }
