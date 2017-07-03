@@ -55,4 +55,13 @@ export class UserListComponent implements OnInit, OnDestroy {
     }
     return false;
   }
+
+  deleteUser(user: User) {
+    this.userObservableService.deleteUser(user)
+    .subscribe(
+             () => this.users = this.users.filter(u => u !== user),
+             err => console.log(err)
+       );
+  }
+
 }

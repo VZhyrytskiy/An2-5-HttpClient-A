@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { User } from './../../models/user';
@@ -10,6 +10,7 @@ import { User } from './../../models/user';
 })
 export class UserComponent {
   @Input() user: User;
+  @Output() onDelete = new EventEmitter<User>();
 
   constructor(
     private router: Router,
@@ -24,4 +25,9 @@ export class UserComponent {
     // const link = ['edit', this.user.id];
     // this.router.navigate(link, {relativeTo: this.route});
   }
+
+  deleteUser() {
+    this.onDelete.emit(this.user);
+  }
+
 }
