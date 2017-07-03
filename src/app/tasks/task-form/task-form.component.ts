@@ -26,7 +26,11 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     // it is not necessary to save subscription to route.params
     // it handles automatically
     this.route.params
-      .switchMap((params: Params) => this.taskPromiseService.getTask(+params['id']))
+      .switchMap((params: Params) => {
+        return params['id']
+          ? this.taskPromiseService.getTask(+params['id'])
+          : null;
+      })
       .subscribe(
         task => this.task = Object.assign({}, task),
         err => console.log(err)
