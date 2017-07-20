@@ -9,8 +9,8 @@ import { UserArrayService, UserObservableService } from './../';
 import { AutoUnsubscribe } from './../../decorators';
 
 @Component({
-  templateUrl: 'user-list.component.html',
-  styleUrls: ['user-list.component.css']
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.css']
 })
 @AutoUnsubscribe('subscriptions')
 export class UserListComponent implements OnInit {

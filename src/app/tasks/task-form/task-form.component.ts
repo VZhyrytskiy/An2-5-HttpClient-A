@@ -7,8 +7,8 @@ import { Task } from './../../models/task';
 import { TaskArrayService, TaskPromiseService } from './..';
 
 @Component({
-  templateUrl: 'task-form.component.html',
-  styleUrls: ['task-form.component.css']
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.css']
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
   task: Task;
