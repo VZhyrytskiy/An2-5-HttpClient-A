@@ -7,15 +7,15 @@ import { Task } from './../../models/task';
 import { TaskArrayService } from './../services/task-array.service';
 
 @Component({
-  templateUrl: 'task-form.component.html',
-  styleUrls: ['task-form.component.css']
+  templateUrl: './task-form.component.html',
+  styleUrls: ['./task-form.component.css']
 })
 export class TaskFormComponent implements OnInit, OnDestroy {
   task: Task;
 
   constructor(
-    private router: Router,
     private taskArrayService: TaskArrayService,
+    private router: Router,
     private route: ActivatedRoute
   ) { }
 
@@ -51,7 +51,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       this.taskArrayService.addTask(task);
     }
 
-    this.router.navigate(['/home']);
+    this.goBack();
   }
 
   goBack(): void {
