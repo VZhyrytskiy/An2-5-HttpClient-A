@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
 import { User } from './../../models/user';
 import { DialogService } from './../../services/dialog.service';
@@ -8,12 +9,12 @@ import { UserArrayService } from './../services/user-array.service';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
-  templateUrl: 'user-form.component.html',
-  styleUrls: ['user-form.component.css'],
+  templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.css'],
 })
 export class UserFormComponent implements OnInit, OnDestroy {
   user: User;
-  oldUser: User;
+  originalUser: User;
 
   constructor(
     private userArrayService: UserArrayService,
@@ -27,7 +28,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
     this.route.data.forEach((data: { user: User }) => {
       this.user = Object.assign({}, data.user);
-      this.oldUser = data.user;
+      this.originalUser = Object.assign({}, data.user);
     });
   }
 
@@ -44,15 +45,15 @@ export class UserFormComponent implements OnInit, OnDestroy {
     if (user.id) {
       this.userArrayService.updateUser(user);
       // if success
-      this.oldUser = this.user;
+      this.originalUser = Object.assign({}, this.user);
       // optional parameter: http://localhost:4200/users;id=2
       this.router.navigate(['users', { id: user.id }]);
     }
     else {
       this.userArrayService.addUser(user);
       // if success
-      this.oldUser = this.user;
-      this.router.navigate(['users']);
+      this.originalUser = Object.assign({}, this.user);
+      this.goBack();
     }
   }
 
@@ -60,9 +61,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['./../../'], { relativeTo: this.route });
   }
 
-  canDeactivate(): Promise<boolean> | boolean {
+  canDeactivate(): Observable<boolean> |Promise<boolean> | boolean {
     // Allow synchronous navigation (`true`)
-    if (!this.oldUser || this.oldUser.firstName === this.user.firstName) {
+    if (!this.originalUser || this.originalUser.firstName === this.user.firstName) {
       return true;
     }
     // Otherwise ask the user with the dialog service and return its

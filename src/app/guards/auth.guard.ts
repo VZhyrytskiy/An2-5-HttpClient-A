@@ -21,7 +21,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     console.log('canActivateChild Guard is called');
-    return this.canActivate(route, state);
+    const url: string = state.url;
+
+    return this.checkLogin(url);
   }
 
   canLoad(route: Route): boolean {
@@ -31,7 +33,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     return this.checkLogin(url);
   }
 
-  checkLogin(url: string): boolean {
+  private checkLogin(url: string): boolean {
     if (this.authService.isLoggedIn) { return true; }
 
     // Store the attempted URL for redirecting
