@@ -7,8 +7,8 @@ import { User } from './../../models/user';
 import { UserArrayService } from './../services/user-array.service';
 
 @Component({
-  templateUrl: 'user-list.component.html',
-  styleUrls: ['user-list.component.css']
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.css']
 })
 export class UserListComponent implements OnInit, OnDestroy {
   users: Array<User>;
