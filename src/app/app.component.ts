@@ -25,6 +25,17 @@ export class AppComponent implements OnInit, OnDestroy {
     this.sub.unsubscribe();
   }
 
+   /**
+   * @param $event - component instance
+   */
+  onActivate($event) {
+    console.log('Activated Component', $event);
+  }
+
+  onDeactivate($event) {
+    console.log('Deactivated Component', $event);
+  }
+
   private setPageTitlesAndMeta() {
     this.sub = this.router.events
       // NavigationStart, NavigationEnd, NavigationCancel,
@@ -59,3 +70,4 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 }
+
