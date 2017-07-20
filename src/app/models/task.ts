@@ -7,7 +7,7 @@ export class Task {
     public actHours?: number,
     public done?: boolean
   ) {
-    this.actHours = 0;
-    this.done = false;
+    this.actHours = actHours || 0;
+    this.done = done || false;
   }
 }

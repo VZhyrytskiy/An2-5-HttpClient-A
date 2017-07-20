@@ -4,8 +4,8 @@ import { Router, NavigationExtras } from '@angular/router';
 import { AuthService } from './../../services/auth.service';
 
 @Component({
-  templateUrl: 'login.component.html',
-  styleUrls: ['login.component.css']
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   message: string;
@@ -13,11 +13,10 @@ export class LoginComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public router: Router
-  ) {
-    this.setMessage();
-  }
+  ) { }
 
   ngOnInit() {
+    this.setMessage();
   }
 
   login() {
