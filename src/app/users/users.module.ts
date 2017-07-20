@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { UsersRoutingModule, usersRouterComponents } from './users.routing.module';
 
 import { UserComponent, UserArrayService, UserObservableService } from '.';
-import { CanDeactivateGuard } from './../guards/can-deactivate.guard';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { CanDeactivateGuard } from './../guards/can-deactivate.guard';
   providers: [
     UserArrayService,
     UserObservableService,
-    CanDeactivateGuard
   ]
 })
 export class UsersModule {}

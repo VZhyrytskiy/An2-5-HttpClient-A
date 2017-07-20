@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
 
 import { User } from './../../models/user';
 import { DialogService } from './../../services/dialog.service';
@@ -9,12 +10,12 @@ import { UserObservableService } from './..';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
-  templateUrl: 'user-form.component.html',
-  styleUrls: ['user-form.component.css'],
+  templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.css'],
 })
 export class UserFormComponent implements OnInit, OnDestroy {
   user: User;
-  oldUser: User;
+  originalUser: User;
 
   private sub: Subscription[] = [];
 
@@ -30,7 +31,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
     this.route.data.forEach((data: { user: User }) => {
       this.user = Object.assign({}, data.user);
-      this.oldUser = data.user;
+      this.originalUser = Object.assign({}, data.user);
     });
   }
 
@@ -49,7 +50,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     const sub = this.userObservableService[method](user)
       .subscribe(
         () => {
-          this.oldUser = this.user;
+          this.originalUser = Object.assign({}, this.user);
           user.id
             // optional parameter: http://localhost:4200/users;id=2
             ? this.router.navigate(['users', { id: user.id }])
@@ -64,9 +65,9 @@ export class UserFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['./../../'], { relativeTo: this.route });
   }
 
-  canDeactivate(): Promise<boolean> | boolean {
+  canDeactivate(): Observable<boolean> |Promise<boolean> | boolean {
     // Allow synchronous navigation (`true`)
-    if (!this.oldUser || this.oldUser.firstName === this.user.firstName) {
+    if (!this.originalUser || this.originalUser.firstName === this.user.firstName) {
       return true;
     }
     // Otherwise ask the user with the dialog service and return its
