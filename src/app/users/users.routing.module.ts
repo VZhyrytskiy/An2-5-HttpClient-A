@@ -37,11 +37,12 @@ export let usersRouterComponents = [UsersComponent, UserListComponent, UserFormC
   imports: [
     RouterModule.forChild(routes)
   ],
+  providers: [
+    CanDeactivateGuard,
+    UserResolveGuard
+  ],
   exports: [
     RouterModule
-  ],
-  providers: [
-    UserResolveGuard
   ]
 })
 export class UsersRoutingModule { }
