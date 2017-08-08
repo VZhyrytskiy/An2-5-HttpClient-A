@@ -29,7 +29,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       .switchMap((params: Params) => {
         return params['id']
           ? this.taskPromiseService.getTask(+params['id'])
-          : null;
+          : Promise.resolve(null);
       })
       .subscribe(
         task => this.task = Object.assign({}, task),
