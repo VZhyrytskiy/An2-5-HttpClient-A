@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import './../../services/rxjs-extensions';
@@ -11,7 +11,7 @@ export class UserObservableService {
   private usersUrl = 'http://localhost:3000/users';
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {}
 
   getUsers(): Observable<User[]> {
@@ -36,8 +36,8 @@ export class UserObservableService {
 
   }
 
-  private handleData(response: Response) {
-    const body = response.json();
+  private handleData(response: HttpResponse<User>) {
+    const body = response;
     return body || {};
   }
 
