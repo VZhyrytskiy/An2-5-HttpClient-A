@@ -22,7 +22,7 @@ export class TaskPromiseService {
   getTask(id: number): Promise<Task> {
     return this.http.get(`${this.tasksUrl}/${id}`)
             .toPromise()
-            .then( response => <Task>response.json() )
+            .then( response => <Task>response )
             .catch(this.handleError);
   }
 
