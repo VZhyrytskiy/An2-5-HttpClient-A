@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import './../../services/rxjs-extensions';
 
 import { Task } from './../../models/task';
@@ -9,13 +9,13 @@ export class TaskPromiseService {
   private tasksUrl = 'http://localhost:3000/tasks';
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {}
 
   getTasks(): Promise<Task[]> {
     return this.http.get(this.tasksUrl)
             .toPromise()
-            .then( response => <Task[]>response.json() )
+            .then( response => <Task[]>response )
             .catch(this.handleError);
   }
 
