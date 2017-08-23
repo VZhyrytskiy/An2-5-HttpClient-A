@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import './../../services/rxjs-extensions';
@@ -11,8 +11,8 @@ export class UserObservableService {
   private usersUrl = 'http://localhost:3000/users';
 
   constructor(
-    private http: Http
-  ) { }
+    private http: HttpClient
+  ) {}
 
   getUsers(): Observable<User[]> {
     return this.http.get(this.usersUrl)
@@ -28,12 +28,11 @@ export class UserObservableService {
   }
 
   updateUser(user: User): Observable<User> {
-     const url = `${this.usersUrl}/${user.id}`,
-        body = JSON.stringify(user),
-        headers = new Headers({'Content-Type': 'application/json'}),
-        options = new RequestOptions();
-
-    options.headers = headers;
+    const url = `${this.usersUrl}/${user.id}`,
+      body = JSON.stringify(user),
+      options = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      };
 
     return this.http.put(url, body, options)
             .map( this.handleData )
@@ -43,11 +42,10 @@ export class UserObservableService {
 
   createUser(user: User): Observable<User> {
     const url = this.usersUrl,
-        body = JSON.stringify(user),
-        headers = new Headers({'Content-Type': 'application/json'}),
-        options = new RequestOptions();
-
-    options.headers = headers;
+      body = JSON.stringify(user),
+      options = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+      };
 
     return this.http.post(url, body, options)
             .map( this.handleData )
@@ -63,9 +61,8 @@ export class UserObservableService {
       .catch(this.handleError);
   }
 
-
-  private handleData(response: Response) {
-    const body = response.json();
+  private handleData(response: HttpResponse<User>) {
+    const body = response;
     return body || {};
   }
 

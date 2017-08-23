@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, RequestOptions } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import './../../services/rxjs-extensions';
 
 import { Task } from './../../models/task';
@@ -9,46 +10,47 @@ export class TaskPromiseService {
   private tasksUrl = 'http://localhost:3000/tasks';
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {}
 
   getTasks(): Promise<Task[]> {
     return this.http.get(this.tasksUrl)
             .toPromise()
-            .then( response => <Task[]>response.json() )
+            .then( response => <Task[]>response )
             .catch(this.handleError);
   }
 
   getTask(id: number): Promise<Task> {
     return this.http.get(`${this.tasksUrl}/${id}`)
             .toPromise()
-            .then( response => <Task>response.json() )
+            .then( response => <Task>response )
             .catch(this.handleError);
   }
 
   updateTask(task: Task): Promise<Task> {
     const url = `${this.tasksUrl}/${task.id}`,
-        body = JSON.stringify(task),
-        headers = new Headers({'Content-Type': 'application/json'}),
-        options = new RequestOptions();
+      body = JSON.stringify(task),
+      options = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      };
 
-    options.headers = headers;
 
     return this.http.put(url, body, options)
             .toPromise()
-            .then( response => <Task>response.json() )
+            .then( response => <Task>response )
             .catch( this.handleError );
   }
 
   createTask(task: Task): Promise<Task> {
     const url = this.tasksUrl,
-        body = JSON.stringify(task),
-        headers = new Headers({'Content-Type': 'application/json'}),
-        options = new RequestOptions({headers: headers});
+      body = JSON.stringify(task),
+      options = {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      };
 
     return this.http.post(url, body, options)
             .toPromise()
-            .then( response => <Task>response.json() )
+            .then( response => <Task>response )
             .catch( this.handleError );
   }
 
@@ -57,7 +59,7 @@ export class TaskPromiseService {
 
     return this.http.delete(url)
             .toPromise()
-            .then( response => <Task>response.json() )
+            .then( response => <Task>response )
             .catch( this.handleError );
   }
 
