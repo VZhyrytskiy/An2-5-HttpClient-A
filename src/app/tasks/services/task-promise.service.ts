@@ -59,7 +59,7 @@ export class TaskPromiseService {
 
     return this.http.delete(url)
             .toPromise()
-            .then( response => <Task>response.json() )
+            .then( response => <Task>response )
             .catch( this.handleError );
   }
 
