@@ -42,7 +42,7 @@ export class TaskArrayService {
     }
   }
 
-  completeTask(task): void {
+  completeTask(task: Task): void {
     task.done = true;
   }
 }
