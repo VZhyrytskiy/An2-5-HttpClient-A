@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-import { AboutComponent, PageNotFoundComponent, LoginComponent } from './components';
+import { AboutComponent, MessagesComponent, LoginComponent, PageNotFoundComponent } from './components';
 import { AuthGuard } from './guards/auth.guard';
 import { CustomPreloadingStrategyService } from './services';
 
@@ -29,6 +29,11 @@ const routes: Routes = [
       preload: true,
       title: 'Users'
     }
+  },
+  {
+    path: 'messages',
+    component: MessagesComponent,
+    outlet: 'popup'
   },
   {
     path: '',
