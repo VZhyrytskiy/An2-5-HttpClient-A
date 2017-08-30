@@ -16,7 +16,7 @@ export class TaskComponent {
     private router: Router
   ) { }
 
-  completeTask(event: any): void {
+  completeTask(): void {
     this.onComplete.emit(this.task);
   }
 
