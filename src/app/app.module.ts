@@ -12,6 +12,8 @@ import { TasksModule } from './tasks/tasks.module';
 
 import { AppRoutingModule, appRouterComponents } from './app.routing.module';
 import { AppComponent } from './app.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import { MessagesService } from './services';
 
 import { DialogService } from './services/dialog.service';
 
@@ -23,7 +25,8 @@ import { MyInterceptor } from './services/interceptor.service';
 @NgModule({
   declarations: [
     AppComponent,
-    appRouterComponents
+    appRouterComponents,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -40,12 +43,11 @@ import { MyInterceptor } from './services/interceptor.service';
       provide: HTTP_INTERCEPTORS,
       useClass: MyInterceptor,
       multi: true,
-    }
-
-
+    },
     // add this line if you don't have access to
     // index.html and you want to set base tag
     // { provide: APP_BASE_HREF, useValue: '/' }
+    MessagesService
   ],
   bootstrap: [AppComponent]
 })
