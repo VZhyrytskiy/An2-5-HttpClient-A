@@ -37,11 +37,19 @@
         </nav>
 
         <div class="container">
-          <router-outlet
+          <div class="col-md-10">
+            <router-outlet
               (activate)='onActivate($event)'
               (deactivate)='onDeactivate($event)'>
           </router-outlet>
           <!-- Routed views go here -->
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-success"
+                    *ngIf="!messagesService.isDisplayed"
+                    (click)="displayMessages()">Show Messages</button>
+            <router-outlet name="popup"></router-outlet>
+          </div>
         </div>
     </div>
 </div>
