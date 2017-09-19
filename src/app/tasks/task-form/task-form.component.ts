@@ -47,8 +47,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     if (task.id) {
       this.taskPromiseService.updateTask(task)
         .then(() => this.goBack() );
-    }
-    else {
+    } else {
       this.taskArrayService.addTask(task);
       this.goBack();
     }
