@@ -46,8 +46,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
     if (task.id) {
       this.taskArrayService.updateTask(task);
-    }
-    else {
+    } else {
       this.taskArrayService.addTask(task);
     }
 
