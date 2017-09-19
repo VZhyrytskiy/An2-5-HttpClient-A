@@ -48,8 +48,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
       this.originalUser = Object.assign({}, this.user);
       // optional parameter: http://localhost:4200/users;id=2
       this.router.navigate(['users', { id: user.id }]);
-    }
-    else {
+    } else {
       this.userArrayService.addUser(user);
       // if success
       this.originalUser = Object.assign({}, this.user);

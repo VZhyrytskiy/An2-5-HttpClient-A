@@ -18,8 +18,7 @@ export class UserResolveGuard implements Resolve<User> {
     return this.userArrayService.getUser(id).then(user => {
       if (user) {
         return user;
-      }
-      else { // id not found
+      } else { // id not found
         this.router.navigate(['/users']);
         return null;
       }
