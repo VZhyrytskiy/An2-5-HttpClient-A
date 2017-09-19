@@ -12,4 +12,8 @@ export class MessagesService {
     const currentDate = new Date();
     this.messages.unshift(`${message} at ${currentDate.toLocaleString()}`);
   }
+
+  getMessages(): Array<string> {
+    return this.messages;
+  }
 }
