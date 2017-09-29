@@ -20,6 +20,12 @@ export class UserObservableService {
       .catch(this.handleError);
   }
 
+  getUser(id: number): Observable<User> {
+    return this.http.get(`${this.usersUrl}/${id}`)
+           .map( this.handleData )
+           .catch(this.handleError);
+  }
+
   // Case 1 Handle Body {observe: 'body'}
   // getUser(id: number): Observable<User> {
   //   return this.http.get(`${this.usersUrl}/${id}`, {observe: 'body'})
@@ -63,17 +69,17 @@ export class UserObservableService {
   // End Case 3
 
   // Case 4: responseType: text
-  getUser(id: number): Observable<User> {
-    return this.http.get(`${this.usersUrl}/${id}`, {responseType: 'text'})
-      .map(this.handleData4)
-      .catch(this.handleError);
-  }
+  // getUser(id: number): Observable<User> {
+  //   return this.http.get(`${this.usersUrl}/${id}`, {responseType: 'text'})
+  //     .map(this.handleData4)
+  //     .catch(this.handleError);
+  // }
 
-  private handleData4(response: string) {
-    console.log(response);
-    const body = JSON.parse(response);
-    return body || {};
-  }
+  // private handleData4(response: string) {
+  //   console.log(response);
+  //   const body = JSON.parse(response);
+  //   return body || {};
+  // }
   // End Case 4
 
   updateUser(user: User): Observable<User> {
