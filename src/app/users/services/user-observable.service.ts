@@ -120,17 +120,7 @@ export class UserObservableService {
     return body || {};
   }
 
-  private handleError(error: any) {
-    const errMsg = (error.message)
-                    ? error.message
-                    : error.status
-                        ? `${error.status} - ${error.statusText}`
-                        : 'Server error';
-    console.error(errMsg);
-    return Observable.throw(errMsg);
-  }
-
-  private handleError2(err: HttpErrorResponse) {
+  private handleError(err: HttpErrorResponse) {
     let errorMessage: string;
 
     // A client-side or network error occurred.
