@@ -15,7 +15,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   users: Array<User>;
   errorMessage: string;
 
-  private sub: Subscription[] = [];
+  private subscription: Subscription[] = [];
   private editedUser: User;
 
   constructor(
@@ -30,7 +30,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         users => this.users = users,
         error => this.errorMessage = <any>error
       );
-    this.sub.push(sub);
+    this.subscription.push(sub);
 
     // listen id from UserFormComponent
     this.route.params
@@ -46,7 +46,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.sub.forEach(sub => sub.unsubscribe());
+    this.subscription.forEach(sub => sub.unsubscribe());
   }
 
   isEdited(user: User) {
