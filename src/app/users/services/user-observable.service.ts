@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import './../../services/rxjs-extensions';
@@ -14,7 +14,7 @@ export class UserObservableService {
     private http: HttpClient
   ) {}
 
-  getUsers(): Observable<User[]> {
+  getUsers() {
     return this.http.get(this.usersUrl)
             .map( this.handleData )
             .catch( this.handleError );
@@ -41,13 +41,20 @@ export class UserObservableService {
     return body || {};
   }
 
-  private handleError(error: any) {
-    const errMsg = (error.message)
-                    ? error.message
-                    : error.status
-                        ? `${error.status} - ${error.statusText}`
-                        : 'Server error';
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+  private handleError(err: HttpErrorResponse) {
+    let errorMessage: string;
+
+    // A client-side or network error occurred.
+    if (err.error instanceof Error) {
+      errorMessage = `An error occurred: ${err.error.message}`;
+    }
+    // The backend returned an unsuccessful response code.
+    // The response body may contain clues as to what went wrong,
+    else {
+      errorMessage = `Backend returned code ${err.status}, body was: ${err.error}`;
+    }
+
+    console.error(errorMessage);
+    return Observable.throw(errorMessage);
   }
 }
