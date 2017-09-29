@@ -27,7 +27,8 @@ export class UserObservableService {
   //     .catch(this.handleError);
   // }
 
-  // private handleData1(response: HttpResponse<User>) {
+  // private handleData1(response: User) {
+  //   console.log(response);
   //   const body = response;
   //   return body || {};
   // }
@@ -54,8 +55,9 @@ export class UserObservableService {
   //     .catch(this.handleError);
   // }
 
-  // private handleData3(user: User) {
-  //   const body = user;
+  // private handleData3(response: User) {
+  //   console.log(response);
+  //   const body = response;
   //   return body || {};
   // }
   // End Case 3
@@ -67,11 +69,12 @@ export class UserObservableService {
       .catch(this.handleError);
   }
 
-  private handleData4(user: string) {
-    const body = JSON.parse(user);
+  private handleData4(response: string) {
+    console.log(response);
+    const body = JSON.parse(response);
     return body || {};
   }
-  // End Case 3
+  // End Case 4
 
   updateUser(user: User): Observable<User> {
     const url = `${this.usersUrl}/${user.id}`,
