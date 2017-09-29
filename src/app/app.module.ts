@@ -19,8 +19,7 @@ import { DialogService } from './services/dialog.service';
 
 import { AuthService } from './services/auth.service';
 import { AuthGuard } from './guards/auth.guard';
-import { MyInterceptor } from './services/interceptor.service';
-
+import { MyInterceptor } from './services/interceptors.service';
 
 @NgModule({
   declarations: [
@@ -39,15 +38,15 @@ import { MyInterceptor } from './services/interceptor.service';
     AuthGuard,
     AuthService,
     DialogService,
+    // add this line if you don't have access to
+    // index.html and you want to set base tag
+    // { provide: APP_BASE_HREF, useValue: '/' }
+    MessagesService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MyInterceptor,
       multi: true,
-    },
-    // add this line if you don't have access to
-    // index.html and you want to set base tag
-    // { provide: APP_BASE_HREF, useValue: '/' }
-    MessagesService
+    }
   ],
   bootstrap: [AppComponent]
 })
