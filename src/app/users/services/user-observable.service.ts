@@ -14,7 +14,7 @@ export class UserObservableService {
     private http: HttpClient
   ) {}
 
-  getUsers() {
+  getUsers(): Observable<User[]> {
     return this.http.get(this.usersUrl)
             .map( this.handleData )
             .catch( this.handleError );
