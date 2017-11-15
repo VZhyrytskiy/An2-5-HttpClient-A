@@ -32,11 +32,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.messagesService.isDisplayed = true;
   }
 
-  hideMessages(): void {
-    this.router.navigate([{ outlets: { popup: null } }]);
-    this.messagesService.isDisplayed = false;
-  }
-
   /**
    * @param $event - component instance
    */
