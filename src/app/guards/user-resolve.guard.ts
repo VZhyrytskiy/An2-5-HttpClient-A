@@ -15,7 +15,7 @@ export class UserResolveGuard implements Resolve<User> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<User> {
-    const id = +route.params['id'];
+    const id = +route.paramMap.get('id');
     if (id) {
       return this.userObservableService.getUser(id)
         .catch(() => {
