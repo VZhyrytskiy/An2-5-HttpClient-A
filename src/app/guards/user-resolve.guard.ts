@@ -13,7 +13,7 @@ export class UserResolveGuard implements Resolve<User> {
   ) {}
 
   resolve(route: ActivatedRouteSnapshot): Promise<User> | null {
-    const id = +route.params['id'];
+    const id = +route.paramMap.get('id');
 
     return this.userArrayService.getUser(id).then(user => {
       if (user) {
