@@ -16,4 +16,8 @@ export class MessagesService {
   getMessages(): Array<string> {
     return this.messages;
   }
+
+  clearMessageList(): void {
+    this.messages.length = 0;
+  }
 }
