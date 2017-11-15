@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 
 import { User } from './../../models/user';
-import { UserArrayService, UserObservableService } from './../';
+import { UserArrayService } from './../services/user-array.service';
+import { UserObservableService } from './../services/user-observable.service';
 import { AutoUnsubscribe } from './../../decorators';
 
 @Component({
@@ -35,12 +36,12 @@ export class UserListComponent implements OnInit {
     this.subscriptions.push(sub);
 
     // listen id from UserFormComponent
-    this.route.params
-      .switchMap((params: Params) => this.userArrayService.getUser(+params['id']))
+    this.route.paramMap
+      .switchMap((params: Params) => this.userArrayService.getUser(+params.get('id')))
       .subscribe(
         (user: User) => {
           this.editedUser = Object.assign({}, user);
-          console.log(`Last time you edit user ${JSON.stringify(this.editedUser)}`);
+          console.log(`Last time you edited user ${JSON.stringify(this.editedUser)}`);
         },
         (err) => console.log(err)
       );

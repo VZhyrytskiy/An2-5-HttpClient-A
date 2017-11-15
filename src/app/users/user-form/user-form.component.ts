@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { User } from './../../models/user';
 import { DialogService } from './../../services/dialog.service';
-import { UserObservableService } from './..';
+import { UserObservableService } from './../services/user-observable.service';
+import { CanComponentDeactivate } from './../../guards/can-component-deactivate.interface';
 import { AutoUnsubscribe } from './../../decorators';
 
 import 'rxjs/add/operator/switchMap';
@@ -15,7 +16,7 @@ import 'rxjs/add/operator/switchMap';
   styleUrls: ['./user-form.component.css'],
 })
 @AutoUnsubscribe()
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, CanComponentDeactivate {
   user: User;
   originalUser: User;
 
@@ -31,7 +32,9 @@ export class UserFormComponent implements OnInit {
   ngOnInit(): void {
     this.user = new User(null, '', '');
 
-    this.route.data.forEach((data: { user: User }) => {
+    // data is an observable object
+    // which contains custom and resolve data
+    this.route.data.subscribe(data => {
       this.user = Object.assign({}, data.user);
       this.originalUser = Object.assign({}, data.user);
     });
@@ -63,11 +66,20 @@ export class UserFormComponent implements OnInit {
     this.router.navigate(['./../../'], { relativeTo: this.route });
   }
 
-  canDeactivate(): Observable<boolean> |Promise<boolean> | boolean {
-    // Allow synchronous navigation (`true`)
-    if (!this.originalUser || this.originalUser.firstName === this.user.firstName) {
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    const flags = [];
+    for (const key in this.originalUser) {
+      if (this.originalUser[key] === this.user[key]) {
+        flags.push(true);
+      } else {
+        flags.push(false);
+      }
+    }
+
+    if (flags.every(el => el)) {
       return true;
     }
+
     // Otherwise ask the user with the dialog service and return its
     // promise which resolves to true or false when the user decides
     return this.dialogService.confirm('Discard changes?');
