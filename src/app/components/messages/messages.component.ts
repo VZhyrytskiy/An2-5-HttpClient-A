@@ -22,5 +22,4 @@ export class MessagesComponent implements OnInit {
     this.router.navigate([{ outlets: { popup: null } }]);
     this.messagesService.isDisplayed = false;
   }
-
 }
