@@ -5,7 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/switchMap';
 
 import { User } from './../../models/user';
-import { UserArrayService, UserObservableService } from './../';
+import { UserArrayService } from './../services/user-array.service';
+import { UserObservableService } from './../services/user-observable.service';
 
 @Component({
   templateUrl: './user-list.component.html',
