@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanDeactivate } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 
-export interface CanComponentDeactivate {
- canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
-}
+import { CanComponentDeactivate } from './can-component-deactivate.interface';
 
 @Injectable()
 export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
   canDeactivate(component: CanComponentDeactivate) {
-    return component.canDeactivate ? component.canDeactivate() : true;
+    return component.canDeactivate();
   }
 }
