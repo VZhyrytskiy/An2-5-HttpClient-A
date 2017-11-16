@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject} from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import './../../services/rxjs-extensions';
 
 import { User } from './../../models/user';
+import { UsersAPI } from '../users.config';
 
 @Injectable()
 export class UserObservableService {
-  private usersUrl = 'http://localhost:3000/users';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    @Inject(UsersAPI) private usersUrl: string
   ) {}
 
   getUsers(): Observable<User[]> {
