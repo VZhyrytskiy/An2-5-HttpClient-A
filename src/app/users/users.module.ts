@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { UsersRoutingModule, usersRouterComponents } from './users.routing.module';
 
 import { UserComponent, UserArrayService, UserObservableService } from '.';
+import { UsersAPI, usersBaseUrl } from './users.config';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { UserComponent, UserArrayService, UserObservableService } from '.';
   providers: [
     UserArrayService,
     UserObservableService,
+    {provide: UsersAPI, useValue: usersBaseUrl}
   ]
 })
 export class UsersModule {}
