@@ -1,21 +1,23 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
 
-import 'rxjs/add/operator/switchMap';
+// rxjs
+import { switchMap } from 'rxjs/operators';
 
-import { Task } from './../../models/task';
+import { Task } from './../models/task.model';
 import { TaskArrayService } from './../services/task-array.service';
 
 @Component({
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.css']
 })
-export class TaskFormComponent implements OnInit, OnDestroy {
+export class TaskFormComponent implements OnInit {
   task: Task;
 
   constructor(
     private taskArrayService: TaskArrayService,
-    private router: Router,
+    private location: Location,
     private route: ActivatedRoute
   ) { }
 
@@ -25,23 +27,16 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     // it is not necessary to save subscription to route.paramMap
     // it handles automatically
     this.route.paramMap
-      .switchMap((params: Params) => this.taskArrayService.getTask(+params.get('id')))
+      .pipe(
+        switchMap((params: Params) => this.taskArrayService.getTask(+params.get('id'))))
       .subscribe(
-        task => this.task = Object.assign({}, task),
+        task => this.task = {...task},
         err => console.log(err)
     );
   }
 
-  ngOnDestroy(): void {
-  }
-
   saveTask() {
-    const task = new Task(
-      this.task.id,
-      this.task.action,
-      this.task.priority,
-      this.task.estHours
-    );
+    const task = {...this.task};
 
     if (task.id) {
       this.taskArrayService.updateTask(task);
@@ -53,6 +48,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/home']);
+    this.location.back();
   }
 }

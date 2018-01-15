@@ -1,19 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+
+// rxjs
 import { Observable } from 'rxjs/Observable';
+import { switchMap } from 'rxjs/operators';
 
-import { User } from './../../models/user';
-import { DialogService } from './../../services/dialog.service';
+import { DialogService, CanComponentDeactivate } from './../../shared';
+import { User } from './../models/user.model';
 import { UserArrayService } from './../services/user-array.service';
-import { CanComponentDeactivate } from './../../guards/can-component-deactivate.interface';
-
-import 'rxjs/add/operator/switchMap';
 
 @Component({
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.css'],
 })
-export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactivate {
+export class UserFormComponent implements OnInit, CanComponentDeactivate {
   user: User;
   originalUser: User;
 
@@ -30,33 +30,23 @@ export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactiv
     // data is an observable object
     // which contains custom and resolve data
     this.route.data.subscribe(data => {
-      this.user = Object.assign({}, data.user);
-      this.originalUser = Object.assign({}, data.user);
+      this.user = {...data.user};
+      this.originalUser = {...data.user};
     });
   }
 
-  ngOnDestroy(): void {
-  }
-
   saveUser() {
-    const user = new User(
-      this.user.id,
-      this.user.firstName,
-      this.user.lastName
-    );
+    const user = {...this.user};
 
     if (user.id) {
       this.userArrayService.updateUser(user);
-      // if success
-      this.originalUser = Object.assign({}, this.user);
       // optional parameter: http://localhost:4200/users;id=2
-      this.router.navigate(['users', { id: user.id }]);
+      this.router.navigate(['/users', {editedUserID: user.id}]);
     } else {
       this.userArrayService.addUser(user);
-      // if success
-      this.originalUser = Object.assign({}, this.user);
       this.goBack();
     }
+    this.originalUser = {...this.user};
   }
 
   goBack() {
@@ -64,14 +54,12 @@ export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactiv
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    const flags = [];
-    for (const key in this.originalUser) {
+    const flags = Object.keys(this.originalUser).map(key => {
       if (this.originalUser[key] === this.user[key]) {
-        flags.push(true);
-      } else {
-        flags.push(false);
+        return true;
       }
-    }
+      return false;
+    });
 
     if (flags.every(el => el)) {
       return true;
