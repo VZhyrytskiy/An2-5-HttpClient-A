@@ -1,3 +1,4 @@
+export * from './guards/user-resolve.guard';
 export * from './services/user-array.service';
 
 export * from './users.component';

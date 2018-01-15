@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Task } from './../../models/task';
-import { TaskArrayService } from './../services/task-array.service';
-import { TaskPromiseService } from './../services/task-promise.service';
+import { Task } from './../models/task.model';
+import { TaskPromiseService } from './../services';
 
 @Component({
   templateUrl: './task-list.component.html',
@@ -14,14 +13,11 @@ export class TaskListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private taskArrayService: TaskArrayService,
-    private taskPromiseService: TaskPromiseService)
-  { }
+    private taskPromiseService: TaskPromiseService
+  ) { }
 
   ngOnInit() {
-    this.taskPromiseService.getTasks()
-      .then(tasks => this.tasks = tasks)
-      .catch((err) => console.log(err));
+      this.getTasks().catch(err => console.log(err));
   }
 
   createTask() {
@@ -33,5 +29,14 @@ export class TaskListComponent implements OnInit {
   completeTask(task: Task): void {
     task.done = true;
     this.taskPromiseService.updateTask(task);
+  }
+
+  editTask(task: Task): void {
+    const link = ['/edit', task.id];
+    this.router.navigate(link);
+  }
+
+  private async getTasks() {
+    this.tasks = await this.taskPromiseService.getTasks();
   }
 }
