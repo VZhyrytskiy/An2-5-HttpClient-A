@@ -1,25 +1,32 @@
 import { Injectable } from '@angular/core';
 
-import { User } from './../../models/user';
+// rxjs
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { map, catchError } from 'rxjs/operators';
 
-const userList = [
+import { User } from './../models/user.model';
+
+const userList: Array<User> = [
   new User(1, 'Anna', 'Borisova'),
   new User(2, 'Boris', 'Vlasov'),
   new User(3, 'Gennadiy', 'Dmitriev')
 ];
 
-const userListPromise = Promise.resolve(userList);
+const userListObservable: Observable<Array<User>> = of(userList);
 
 @Injectable()
 export class UserArrayService {
-  getUsers(): Promise<User[]> {
-    return userListPromise;
+  getUsers(): Observable<User[]> {
+    return userListObservable;
   }
 
-  getUser(id: number | string): Promise<User> {
+  getUser(id: number | string): Observable<User> {
     return this.getUsers()
-      .then(users => users.find(user => user.id === +id))
-      .catch(() => Promise.reject('Error in getUser method'));
+      .pipe(
+        map((users: Array<User>) => users.find(user => user.id === +id)),
+        catchError(err => Observable.throw('Error in getUser method'))
+      );
   }
 
   addUser(user: User): void {
@@ -27,14 +34,7 @@ export class UserArrayService {
   }
 
   updateUser(user: User): void {
-    let i = -1;
-
-    userList.forEach((item, index) => {
-      if (item.id === user.id ) {
-        i = index;
-        return false;
-      }
-    });
+    const i = userList.findIndex(u => u.id === user.id);
 
     if (i > -1) {
       userList.splice(i, 1, user);
