@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule, usersRouterComponents } from './users.routing.module';
 
-import { UserComponent, UserArrayService } from '.';
+import { UserComponent, UserArrayService, UserResolveGuard } from '.';
 
 @NgModule({
   imports: [
@@ -17,7 +17,8 @@ import { UserComponent, UserArrayService } from '.';
     UserComponent,
   ],
   providers: [
-    UserArrayService
+    UserArrayService,
+    UserResolveGuard
   ]
 })
 export class UsersModule {}

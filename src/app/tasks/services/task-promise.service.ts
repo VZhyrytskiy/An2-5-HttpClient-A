@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import './../../services/rxjs-extensions';
 
-import { Task } from './../../models/task';
+// rxjs
+import { toPromise } from 'rxjs/operator/toPromise';
+
+import { Task } from './../models/task.model';
 
 @Injectable()
 export class TaskPromiseService {
