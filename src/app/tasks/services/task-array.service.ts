@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Task } from './../../models/task';
+import { Task } from './../models/task.model';
 
 const taskList = [
   new Task(1, 'Estimate', 1, 8, 8, true),
@@ -28,14 +28,7 @@ export class TaskArrayService {
   }
 
   updateTask(task: Task): void {
-    let i = -1;
-
-    taskList.forEach((item, index) => {
-      if (item.id === task.id ) {
-        i = index;
-        return false;
-      }
-    });
+    const i = taskList.findIndex(t => t.id === task.id);
 
     if (i > -1) {
       taskList.splice(i, 1, task);
