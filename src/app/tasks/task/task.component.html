@@ -9,7 +9,8 @@
             <li>Done: {{task.done}}</li>
         </ul>
         <button class="btn btn-primary btn-sm"
-            (click)="completeTask()">
+            (click)="completeTask()"
+            [disabled]="task.done">
             Done
         </button>
         <button class="btn btn-warning btn-sm"

@@ -2,10 +2,11 @@
   <button class="btn btn-primary"
     (click)="createTask()">New Task</button>
   <br><br>
-
-  <task *ngFor='let task of tasks'
+  <app-task 
+    *ngFor="let task of tasks" 
     [task]="task"
-    (onComplete)="completeTask($event)"
-    (onDelete)="deleteTask($event)">
-  </task>
+    (complete)="completeTask($event)"
+    (edit)="editTask($event)"
+    (delete)="deleteTask($event)">
+  </app-task>
 </div>

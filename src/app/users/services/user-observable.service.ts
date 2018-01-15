@@ -2,9 +2,10 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
-import './../../services/rxjs-extensions';
+import { _throw } from 'rxjs/observable/throw';
+import { map, catchError } from 'rxjs/operators';
 
-import { User } from './../../models/user';
+import { User } from './../models/user.model';
 import { UsersAPI } from '../users.config';
 
 @Injectable()
@@ -17,8 +18,10 @@ export class UserObservableService {
 
   getUsers(): Observable<User[]> {
     return this.http.get(this.usersUrl)
-            .map( this.handleData )
-            .catch( this.handleError );
+        .pipe(
+          map( this.handleData ),
+          catchError( this.handleError )
+        );
   }
 
   getUser(id: number) {
@@ -56,6 +59,6 @@ export class UserObservableService {
     }
 
     console.error(errorMessage);
-    return Observable.throw(errorMessage);
+    return _throw(errorMessage);
   }
 }
