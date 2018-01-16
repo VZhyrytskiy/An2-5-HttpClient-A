@@ -1,8 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
+
+// rxjs
 import { Subscription } from 'rxjs/Subscription';
-import { MessagesService } from './services';
+import { filter, map, switchMap } from 'rxjs/operators';
+
+import { MessagesService } from './core/services';
 
 @Component({
   selector: 'app-root',
@@ -45,31 +49,33 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private setPageTitlesAndMeta() {
     this.sub = this.router.events
-      // NavigationStart, NavigationEnd, NavigationCancel,
-      // NavigationError, RoutesRecognized
-      // experimental: RouteConfigLoadStart, RouteConfigLoadEnd
-      .filter(event => event instanceof NavigationEnd)
+      .pipe(
+        // NavigationStart, NavigationEnd, NavigationCancel,
+        // NavigationError, RoutesRecognized
+        // experimental: RouteConfigLoadStart, RouteConfigLoadEnd
+        filter(event => event instanceof NavigationEnd),
 
-      // access to router state, we swap what we’re observing
-      // better alternative to accessing the routerState.root directly,
-      // is toinject the ActivatedRoute
-      // .map(() => this.activatedRoute)
-      .map(() => this.router.routerState.root)
+        // access to router state, we swap what we’re observing
+        // better alternative to accessing the routerState.root directly,
+        // is toinject the ActivatedRoute
+        // .map(() => this.activatedRoute)
+        map(() => this.router.routerState.root),
 
-      // we’ll create a while loop to traverse over the state tree
-      // to find the last activated route,
-      // and then return it to the stream
-      // Doing this allows us to essentially dive into the children
-      // property of the routes config
-      // to fetch the corresponding page title(s)
-      .map(route => {
-        while (route.firstChild) {
-          route = route.firstChild;
-        }
-        return route;
-      })
-      .filter(route => route.outlet === 'primary')
-      .switchMap(route => route.data)
+        // we’ll create a while loop to traverse over the state tree
+        // to find the last activated route,
+        // and then return it to the stream
+        // Doing this allows us to essentially dive into the children
+        // property of the routes config
+        // to fetch the corresponding page title(s)
+        map(route => {
+          while (route.firstChild) {
+            route = route.firstChild;
+          }
+          return route;
+        }),
+        filter(route => route.outlet === 'primary'),
+        switchMap(route => route.data)
+      )
       .subscribe(
       data => {
         this.titleService.setTitle(data['title']);

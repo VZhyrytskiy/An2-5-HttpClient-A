@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MyInterceptor implements HttpInterceptor {
@@ -21,15 +22,17 @@ export class MyInterceptor implements HttpInterceptor {
     }
 
     return next.handle(clonedRequest)
-      // response interceptor
-      .map((event: HttpEvent<any>) => {
-        if (event instanceof HttpResponse) {
-          // do stuff with response
-          console.log('Response Interceptor');
-          console.log(event);
-          console.log(event.body);
-          return event;
-        }
-      });
+      .pipe(
+        // response interceptor
+        map((event: HttpEvent<any>) => {
+          if (event instanceof HttpResponse) {
+            // do stuff with response
+            console.log('Response Interceptor');
+            console.log(event);
+            console.log(event.body);
+            return event;
+          }
+        })
+      );
   }
 }
