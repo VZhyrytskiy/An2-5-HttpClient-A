@@ -1,23 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Location } from '@angular/common';
 
-import 'rxjs/add/operator/switchMap';
+// rxjs
+import { switchMap } from 'rxjs/operators';
 
-import { Task } from './../../models/task';
-import { TaskArrayService } from './../services/task-array.service';
-import { TaskPromiseService } from './../services/task-promise.service';
+import { Task } from './../models/task.model';
+import { TaskArrayService, TaskPromiseService } from './../services';
 
 @Component({
   templateUrl: './task-form.component.html',
   styleUrls: ['./task-form.component.css']
 })
-export class TaskFormComponent implements OnInit, OnDestroy {
+export class TaskFormComponent implements OnInit {
   task: Task;
 
   constructor(
     private taskArrayService: TaskArrayService,
     private taskPromiseService: TaskPromiseService,
-    private router: Router,
+    private location: Location,
     private route: ActivatedRoute
   ) { }
 
@@ -25,27 +26,21 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     this.task = new Task(null, '', null, null);
 
     this.route.paramMap
-      .switchMap((params: Params) => {
-        return params.get('id')
+      .pipe(
+        switchMap((params: Params) => {
+          return params.get('id')
           ? this.taskPromiseService.getTask(+params.get('id'))
           : Promise.resolve(null);
-      })
+        })
+      )
       .subscribe(
-        task => this.task = Object.assign({}, task),
+        task => this.task = {...task},
         err => console.log(err)
     );
   }
 
-  ngOnDestroy(): void {
-  }
-
   saveTask() {
-    const task = new Task(
-      this.task.id,
-      this.task.action,
-      this.task.priority,
-      this.task.estHours
-    );
+    const task = {...this.task};
 
     const method = task.id ? 'updateTask' : 'createTask';
     this.taskPromiseService[method](task)
@@ -53,6 +48,6 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
   goBack(): void {
-    this.router.navigate(['/home']);
+    this.location.back();
   }
 }

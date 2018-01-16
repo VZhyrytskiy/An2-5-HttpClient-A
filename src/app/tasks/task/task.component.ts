@@ -1,32 +1,29 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
-import { Task } from './../../models/task';
+import { Task } from './../models/task.model';
 
 @Component({
-  selector: 'task',
+  selector: 'app-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css']
+  styleUrls: ['./task.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskComponent {
-  @Input() task: Task;
-  @Output() onComplete = new EventEmitter<Task>();
-  @Output() onDelete = new EventEmitter<Task>();
+  @Input()  task: Task;
 
-  constructor(
-    private router: Router
-  ) { }
+  @Output() complete = new EventEmitter<Task>();
+  @Output() edit = new EventEmitter<Task>();
+  @Output() delete = new EventEmitter<Task>();
 
   completeTask(): void {
-    this.onComplete.emit(this.task);
+    this.complete.emit(this.task);
   }
 
   deleteTask() {
-    this.onDelete.emit(this.task);
+    this.delete.emit(this.task);
   }
 
   editTask() {
-    const link = ['/edit', this.task.id];
-    this.router.navigate(link);
+    this.edit.emit(this.task);
   }
 }

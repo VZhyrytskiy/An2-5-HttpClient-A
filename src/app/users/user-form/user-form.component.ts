@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Location } from '@angular/common';
+
+// rxjs
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { switchMap } from 'rxjs/operators';
 
-import { User } from './../../models/user';
-import { DialogService } from './../../services/dialog.service';
-import { UserObservableService } from './../services/user-observable.service';
-import { CanComponentDeactivate } from './../../guards/can-component-deactivate.interface';
-import { AutoUnsubscribe } from './../../decorators';
-
-import 'rxjs/add/operator/switchMap';
+import { AutoUnsubscribe } from './../../core';
+import { DialogService, CanComponentDeactivate } from './../../shared';
+import { User } from './../models/user.model';
+import { UserObservableService } from './../services';
 
 @Component({
   templateUrl: './user-form.component.html',
@@ -20,12 +21,13 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate {
   user: User;
   originalUser: User;
 
-  private sub: Subscription[] = [];
+  private sub: Subscription;
 
   constructor(
     private userObservableService: UserObservableService,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private dialogService: DialogService
   ) { }
 
@@ -35,46 +37,39 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate {
     // data is an observable object
     // which contains custom and resolve data
     this.route.data.subscribe(data => {
-      this.user = Object.assign({}, data.user);
-      this.originalUser = Object.assign({}, data.user);
+      this.user = {...data.user};
+      this.originalUser = {...data.user};
     });
   }
 
   saveUser() {
-    const user = new User(
-      this.user.id,
-      this.user.firstName,
-      this.user.lastName
-    );
+    const user = {...this.user};
 
     const method = user.id ? 'updateUser' : 'createUser';
-    const sub = this.userObservableService[method](user)
+    this.sub = this.userObservableService[method](user)
       .subscribe(
         () => {
-          this.originalUser = Object.assign({}, this.user);
+          this.originalUser = {...this.user};
           user.id
             // optional parameter: http://localhost:4200/users;id=2
-            ? this.router.navigate(['users', { id: user.id }])
-            : this.router.navigate(['users']);
+            ? this.router.navigate(['users', { editedUserID: user.id }])
+            : this.goBack();
         },
         error => console.log(error)
       );
-    this.sub.push(sub);
   }
 
   goBack() {
-    this.router.navigate(['./../../'], { relativeTo: this.route });
+    this.location.back();
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
-    const flags = [];
-    for (const key in this.originalUser) {
+    const flags = Object.keys(this.originalUser).map(key => {
       if (this.originalUser[key] === this.user[key]) {
-        flags.push(true);
-      } else {
-        flags.push(false);
+        return true;
       }
-    }
+      return false;
+    });
 
     if (flags.every(el => el)) {
       return true;
