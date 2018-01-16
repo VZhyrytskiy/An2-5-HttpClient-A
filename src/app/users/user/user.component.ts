@@ -1,33 +1,24 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 
-import { User } from './../../models/user';
+import { User } from './../models/user.model';
 
 @Component({
-  selector: 'user',
+  selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
 export class UserComponent {
   @Input() user: User;
-  @Output() onDelete = new EventEmitter<User>();
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute
-  ) { }
+  @Output() delete = new EventEmitter<User>();
+  @Output() edit = new EventEmitter<User>();
 
   editUser() {
-    const link = ['/users/edit', this.user.id];
-    this.router.navigate(link);
-
-    // or
-    // const link = ['edit', this.user.id];
-    // this.router.navigate(link, {relativeTo: this.route});
+    this.edit.emit(this.user);
   }
 
   deleteUser() {
-    this.onDelete.emit(this.user);
+    this.delete.emit(this.user);
   }
 
 }
