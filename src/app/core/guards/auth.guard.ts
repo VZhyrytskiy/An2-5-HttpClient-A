@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  CanActivate, CanActivateChild, CanLoad, Router, Route,
-  ActivatedRouteSnapshot, RouterStateSnapshot, NavigationExtras
-} from '@angular/router';
+import { CanActivate, CanActivateChild, CanLoad, ActivatedRouteSnapshot,
+  NavigationExtras, RouterStateSnapshot, Router, Route } from '@angular/router';
+
+import { Observable } from 'rxjs/Observable';
+
 import { AuthService } from './../services/auth.service';
 
 @Injectable()
@@ -12,21 +13,22 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     private router: Router
   ) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log('canActivate Guard is called');
-    const url: string = state.url;
-
+  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
+  : Observable<boolean> | Promise<boolean> | boolean {
+    console.log('CanActivate Guard is called');
+    const { url } = state;
     return this.checkLogin(url);
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log('canActivateChild Guard is called');
-    const url: string = state.url;
-
+  canActivateChild(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
+  : Observable<boolean> | Promise<boolean> | boolean {
+    console.log('CanActivateChild Guard is called');
+    const { url } = state;
     return this.checkLogin(url);
   }
 
-  canLoad(route: Route): boolean {
+  canLoad(route: Route)
+  : Observable<boolean> | Promise<boolean> | boolean {
     console.log('CanLoad Guard is activated');
     const url = `/${route.path}`;
 
