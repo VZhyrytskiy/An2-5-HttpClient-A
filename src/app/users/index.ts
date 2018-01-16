@@ -1,5 +1,5 @@
-export * from './services/user-array.service';
-export * from './services/user-observable.service';
+export * from './guards/user-resolve.guard';
+export * from './services';
 
 export * from './users.component';
 export * from './user/user.component';

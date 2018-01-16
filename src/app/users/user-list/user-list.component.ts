@@ -1,53 +1,53 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
-import 'rxjs/add/operator/switchMap';
+// rxjs
+import { Observable } from 'rxjs/Observable';
+import { catchError, switchMap } from 'rxjs/operators';
 
-import { User } from './../../models/user';
-import { UserArrayService } from './../services/user-array.service';
-import { UserObservableService } from './../services/user-observable.service';
+import { User } from './../models/user.model';
+import { UserArrayService, UserObservableService } from './../services';
 
 @Component({
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit, OnDestroy {
-  users: Array<User>;
-  errorMessage: string;
+export class UserListComponent implements OnInit {
+  users$: Observable<Array<User>>;
 
-  private subscriptions: Subscription[] = [];
   private editedUser: User;
 
   constructor(
     private userArrayService: UserArrayService,
     private userObservableService: UserObservableService,
+    private router: Router,
     private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    const sub = this.userObservableService.getUsers()
-      .subscribe(
-        users => this.users = users,
-        error => this.errorMessage = <any>error
-      );
-    this.subscriptions.push(sub);
+    this.users$ = this.userObservableService.getUsers();
 
-    // listen id from UserFormComponent
+    // listen editedUserID from UserFormComponent
     this.route.paramMap
-      .switchMap((params: Params) => this.userArrayService.getUser(+params.get('id')))
+      .pipe(
+        switchMap((params: Params) => this.userArrayService.getUser(+params.get('editedUserID')))
+      )
       .subscribe(
         (user: User) => {
-          this.editedUser = Object.assign({}, user);
+          this.editedUser = {...user};
           console.log(`Last time you edited user ${JSON.stringify(this.editedUser)}`);
         },
-        (err) => console.log(err)
+        err => console.log(err)
       );
-
   }
 
-  ngOnDestroy() {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+  editUser(user: User) {
+    const link = ['/users/edit', user.id];
+    this.router.navigate(link);
+    // or
+    // const link = ['edit', user.id];
+    // this.router.navigate(link, {relativeTo: this.route});
+
   }
 
   isEdited(user: User) {
