@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+// rxjs
 import { Observable } from 'rxjs/Observable';
-import './../../services/rxjs-extensions';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'admin-dashboard.component.html',
@@ -19,12 +21,16 @@ export class AdminDashboardComponent implements OnInit {
     // Capture the session ID if available
     this.sessionId = this.route
       .queryParamMap
-      .map(params => params.get('session_id') || 'None');
+      .pipe(
+        map(params => params.get('session_id') || 'None')
+      );
 
     // Capture the fragment if available
     this.token = this.route
       .fragment
-      .map(fragment => fragment || 'None');
+      .pipe(
+        map(fragment => fragment || 'None')
+      );
   }
 
 }

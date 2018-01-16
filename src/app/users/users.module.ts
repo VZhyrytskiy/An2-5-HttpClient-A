@@ -4,8 +4,8 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule, usersRouterComponents } from './users.routing.module';
 
-import { UserComponent, UserArrayService, UserObservableService } from '.';
-import { UsersAPI, usersBaseUrl } from './users.config';
+import { UserComponent, UserArrayService, UserObservableService, UserResolveGuard } from '.';
+import { UsersAPIProvider } from './users.config';
 
 @NgModule({
   imports: [
@@ -20,7 +20,8 @@ import { UsersAPI, usersBaseUrl } from './users.config';
   providers: [
     UserArrayService,
     UserObservableService,
-    {provide: UsersAPI, useValue: usersBaseUrl}
+    UsersAPIProvider,
+    UserResolveGuard
   ]
 })
 export class UsersModule {}
