@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 // rxjs
 import { Observable } from 'rxjs/Observable';
@@ -25,6 +26,7 @@ export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactiv
     private userObservableService: UserObservableService,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private dialogService: DialogService
   ) { }
 
@@ -63,7 +65,8 @@ export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactiv
   }
 
   goBack() {
-    this.router.navigate(['./../../'], { relativeTo: this.route });
+    // this.router.navigate(['./../../'], { relativeTo: this.route });
+    this.location.back();
   }
 
   canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
