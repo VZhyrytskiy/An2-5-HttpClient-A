@@ -1,28 +1,46 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MessagesComponent } from './components';
-import { AuthGuard } from './guards/auth.guard';
-import { AuthService, MessagesService, CustomPreloadingStrategyService } from './services';
-import { LoginComponent } from './components/login/login.component';
-
+import {
+  AboutComponent,
+  LoginComponent,
+  MessagesComponent,
+  PathNotFoundComponent,
+  AuthGuard,
+  AuthService,
+  CanDeactivateGuard,
+  DialogService,
+  MessagesService,
+  CustomPreloadingStrategyService
+} from '.';
 
 @NgModule({
-  imports: [
-    CommonModule
+  imports: [CommonModule],
+  declarations: [
+    AboutComponent,
+    PathNotFoundComponent,
+    MessagesComponent,
+    LoginComponent
   ],
-  declarations: [MessagesComponent, LoginComponent],
   providers: [
-    MessagesService,
     AuthGuard,
     AuthService,
-    CustomPreloadingStrategyService
+    CustomPreloadingStrategyService,
+    CanDeactivateGuard,
+    DialogService,
+    MessagesService
   ]
 })
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
+  constructor(
+    @Optional()
+    @SkipSelf()
+    parentModule: CoreModule
+  ) {
     if (parentModule) {
-      throw new Error(`CoreModule is already loaded. Import it in the AppModule only.`);
+      throw new Error(
+        `CoreModule is already loaded. Import it in the AppModule only.`
+      );
     }
   }
- }
+}
