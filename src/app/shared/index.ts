@@ -1,3 +1,2 @@
-export * from './guards/can-deactivate.guard';
-export * from './interfaces/can-component-deactivate.interface';
-export * from './services/dialog.service';
+export * from './spinner/spinner.component';
+export * from './spinner/spinner.service';

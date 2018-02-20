@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AdminRoutingModule, adminRouterComponents } from './admin.routing.module';
+import { AdminRoutingModule, adminRouterComponents } from './admin-routing.module';
 
 @NgModule({
   imports: [
