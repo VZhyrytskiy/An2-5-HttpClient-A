@@ -19,7 +19,7 @@ export class TaskFormComponent implements OnInit {
     private taskPromiseService: TaskPromiseService,
     private location: Location,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.task = new Task(null, '', null, null);
@@ -28,22 +28,20 @@ export class TaskFormComponent implements OnInit {
       .pipe(
         switchMap((params: Params) => {
           return params.get('taskID')
-          ? this.taskPromiseService.getTask(+params.get('taskID'))
-          : Promise.resolve(null);
+            ? this.taskPromiseService.getTask(+params.get('taskID'))
+            : Promise.resolve(null);
         })
       )
-      .subscribe(
-        task => this.task = {...task},
-        err => console.log(err)
-    );
+      .subscribe(task => (this.task = { ...task }), err => console.log(err));
   }
 
   saveTask() {
-    const task = {...this.task};
+    const task = { ...this.task };
 
     const method = task.id ? 'updateTask' : 'createTask';
     this.taskPromiseService[method](task)
-      .then(() => this.goBack());
+      .then(() => this.goBack())
+      .catch(err => console.log(err));
   }
 
   goBack(): void {
