@@ -1,0 +1,9 @@
+<app-task 
+  *ngFor="let task of tasks" 
+  [task]="task"
+  (completeTask)="onCompleteTask($event)"
+  (editTask)="onEditTask($event)">
+</app-task>
+
+
+
