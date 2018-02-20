@@ -1,6 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanActivateChild, CanLoad, ActivatedRouteSnapshot,
-  NavigationExtras, RouterStateSnapshot, Router, Route } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateChild,
+  CanLoad,
+  NavigationExtras,
+  Route,
+  Router,
+  RouterStateSnapshot
+} from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -13,15 +21,19 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     private router: Router
   ) { }
 
-  canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
-  : Observable<boolean> | Promise<boolean> | boolean {
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
     console.log('CanActivate Guard is called');
     const { url } = state;
     return this.checkLogin(url);
   }
 
-  canActivateChild(next: ActivatedRouteSnapshot, state: RouterStateSnapshot)
-  : Observable<boolean> | Promise<boolean> | boolean {
+  canActivateChild(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
     console.log('CanActivateChild Guard is called');
     const { url } = state;
     return this.checkLogin(url);
@@ -36,7 +48,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   private checkLogin(url: string): boolean {
-    if (this.authService.isLoggedIn) { return true; }
+    if (this.authService.isLoggedIn) {
+      return true;
+    }
 
     // Store the attempted URL for redirecting
     this.authService.redirectUrl = url;
@@ -47,7 +61,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     // Set our navigation extras object
     // that contains our global query params and fragment
     const navigationExtras: NavigationExtras = {
-      queryParams: { 'session_id': sessionId },
+      queryParams: { sessionId },
       fragment: 'anchor'
     };
 
