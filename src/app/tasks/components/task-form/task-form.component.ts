@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
 
 import { Task } from './../../models/task.model';
-import { TaskArrayService, TaskPromiseService } from './../../services';
+import { TaskPromiseService } from './../../services';
 
 @Component({
   templateUrl: './task-form.component.html',
@@ -16,7 +16,6 @@ export class TaskFormComponent implements OnInit {
   task: Task;
 
   constructor(
-    private taskArrayService: TaskArrayService,
     private taskPromiseService: TaskPromiseService,
     private location: Location,
     private route: ActivatedRoute

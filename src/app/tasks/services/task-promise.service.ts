@@ -48,13 +48,14 @@ export class TaskPromiseService {
     const url = this.tasksUrl,
       body = JSON.stringify(task),
       options = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
       };
 
-    return this.http.post(url, body, options)
-            .toPromise()
-            .then( response => <Task>response )
-            .catch( this.handleError );
+    return this.http
+      .post(url, body, options)
+      .toPromise()
+      .then(response => <Task>response)
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {
