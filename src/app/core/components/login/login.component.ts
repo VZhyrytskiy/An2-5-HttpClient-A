@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
+
+import { Subscription } from 'rxjs/Subscription';
 
 import { AuthService } from './../../services/auth.service';
 
@@ -7,21 +9,26 @@ import { AuthService } from './../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   message: string;
 
-  constructor(
-    public authService: AuthService,
-    public router: Router
-  ) { }
+  private sub: Subscription;
+
+  constructor(public authService: AuthService, public router: Router) {}
 
   ngOnInit() {
     this.setMessage();
   }
 
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+  }
+
   login() {
     this.message = 'Trying to log in ...';
-    this.authService.login().subscribe(() => {
+    this.sub = this.authService.login().subscribe(() => {
       this.setMessage();
       if (this.authService.isLoggedIn) {
         // Get the redirect URL from our auth service
@@ -51,5 +58,4 @@ export class LoginComponent implements OnInit {
   private setMessage() {
     this.message = 'Logged ' + (this.authService.isLoggedIn ? 'in' : 'out');
   }
-
 }

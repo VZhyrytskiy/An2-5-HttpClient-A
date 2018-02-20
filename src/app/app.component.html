@@ -37,6 +37,7 @@
         </nav>
 
         <div class="container">
+          <app-spinner *ngIf="spinnerService.isVisible()"></app-spinner>
           <div class="col-md-10">
             <router-outlet
               (activate)='onActivate($event)'
