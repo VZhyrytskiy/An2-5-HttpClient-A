@@ -34,6 +34,13 @@ export class TaskListComponent implements OnInit {
     this.router.navigate(link);
   }
 
+  onDeleteTask(task: Task) {
+    this.taskPromiseService
+      .deleteTask(task)
+      .then(() => (this.tasks = this.tasks.filter(t => t.id !== task.id)))
+      .catch(err => console.log(err));
+  }
+
   private async getTasks() {
     this.tasks = await this.taskPromiseService.getTasks();
   }

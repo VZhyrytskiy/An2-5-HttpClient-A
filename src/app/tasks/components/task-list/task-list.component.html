@@ -7,9 +7,10 @@
       *ngFor="let task of tasks" 
       [task]="task"
       (completeTask)="onCompleteTask($event)"
-      (editTask)="onEditTask($event)">
+      (editTask)="onEditTask($event)"
+      (deleteTask)="onDeleteTask($event)">
     </app-task>
-    </div>
+</div>
 
 
 

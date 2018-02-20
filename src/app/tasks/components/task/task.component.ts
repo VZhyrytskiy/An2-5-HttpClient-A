@@ -19,6 +19,7 @@ export class TaskComponent {
 
   @Output() completeTask = new EventEmitter<Task>();
   @Output() editTask = new EventEmitter<Task>();
+  @Output() deleteTask = new EventEmitter<Task>();
 
   onCompleteTask(): void {
     this.completeTask.emit(this.task);
@@ -26,5 +27,9 @@ export class TaskComponent {
 
   onEditTask() {
     this.editTask.emit(this.task);
+  }
+
+  onDeleteTask() {
+    this.deleteTask.emit(this.task);
   }
 }
