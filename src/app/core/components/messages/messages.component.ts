@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { MessagesService } from './../../services';
+import { MessagesService } from './../../services/messages.service';
 
 @Component({
   selector: 'app-messages',
