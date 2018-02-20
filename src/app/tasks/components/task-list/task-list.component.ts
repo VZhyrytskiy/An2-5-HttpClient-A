@@ -14,15 +14,14 @@ export class TaskListComponent implements OnInit {
   constructor(
     private router: Router,
     private taskPromiseService: TaskPromiseService
-  ) { }
+  ) {}
 
   ngOnInit() {
-      this.getTasks().catch(err => console.log(err));
+    this.getTasks().catch(err => console.log(err));
   }
 
   onCompleteTask(task: Task): void {
-    task.done = true;
-    this.taskPromiseService.updateTask(task);
+    this.updateTask(task).catch(err => console.log(err));
   }
 
   onEditTask(task: Task): void {
@@ -32,5 +31,19 @@ export class TaskListComponent implements OnInit {
 
   private async getTasks() {
     this.tasks = await this.taskPromiseService.getTasks();
+  }
+
+  private async updateTask(task: Task) {
+    const updatedTask = await this.taskPromiseService.updateTask({
+      ...task,
+      done: true
+    });
+
+    if (updatedTask) {
+      const index = this.tasks.findIndex(t => t.id === updatedTask.id);
+      if (index > -1) {
+        this.tasks.splice(index, 1, updatedTask);
+      }
+    }
   }
 }
