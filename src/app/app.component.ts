@@ -6,7 +6,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { filter, map, switchMap } from 'rxjs/operators';
 
-import { MessagesService } from './core/services';
+import { MessagesService } from './core';
+import { SpinnerService } from './shared';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ export class AppComponent implements OnInit, OnDestroy {
     public messagesService: MessagesService,
     private titleService: Title,
     private metaService: Meta,
-    private router: Router
+    private router: Router,
+    public spinnerService: SpinnerService
   ) { }
 
   ngOnInit() {

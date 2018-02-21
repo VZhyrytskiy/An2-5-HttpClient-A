@@ -12,7 +12,6 @@ const taskListPromise = Promise.resolve(taskList);
 
 @Injectable()
 export class TaskArrayService {
-
   getTasks(): Promise<Task[]> {
     return taskListPromise;
   }
@@ -36,6 +35,8 @@ export class TaskArrayService {
   }
 
   completeTask(task: Task): void {
-    task.done = true;
+    const i = taskList.findIndex(t => t.id === task.id);
+
+    taskList[i].done = true;
   }
 }

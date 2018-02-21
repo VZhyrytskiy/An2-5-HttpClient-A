@@ -14,10 +14,8 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
   }
 
-  createUser() {
+  onCreateUser() {
     const link = ['/users/add'];
     this.router.navigate(link);
   }
-
-
 }
