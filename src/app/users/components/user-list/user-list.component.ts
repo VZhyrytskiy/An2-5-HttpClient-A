@@ -62,12 +62,7 @@ export class UserListComponent implements OnInit {
     return false;
   }
 
-  deleteUser(user: User) {
+  onDeleteUser(user: User) {
     this.users$ = this.userObservableService.deleteUser(user);
-    // .subscribe(null,
-    //         //  () => this.users = this.users.filter(u => u !== user),
-    //          err => console.log(err)
-    //    );
   }
-
 }
