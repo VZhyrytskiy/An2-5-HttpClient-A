@@ -8,7 +8,7 @@ import { map, delay, tap, catchError } from 'rxjs/operators';
 
 import { User } from './../models/user.model';
 import { UserArrayService } from './../services/user-array.service';
-import { SpinnerService } from '../../shared';
+import { SpinnerService } from '../../core';
 
 @Injectable()
 export class UserResolveGuard implements Resolve<User> {
