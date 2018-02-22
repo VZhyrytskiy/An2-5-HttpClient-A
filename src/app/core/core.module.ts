@@ -11,7 +11,8 @@ import {
   CanDeactivateGuard,
   DialogService,
   MessagesService,
-  CustomPreloadingStrategyService
+  CustomPreloadingStrategyService,
+  SpinnerService
 } from '.';
 
 @NgModule({
@@ -28,7 +29,8 @@ import {
     CustomPreloadingStrategyService,
     CanDeactivateGuard,
     DialogService,
-    MessagesService
+    MessagesService,
+    SpinnerService
   ]
 })
 export class CoreModule {
