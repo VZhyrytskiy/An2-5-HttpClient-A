@@ -6,8 +6,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { filter, map, switchMap } from 'rxjs/operators';
 
-import { MessagesService } from './core';
-import { SpinnerService } from './shared';
+import { MessagesService, SpinnerService } from './core';
 
 @Component({
   selector: 'app-root',
