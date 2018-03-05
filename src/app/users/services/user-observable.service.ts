@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } 
 
 import { Observable } from 'rxjs/Observable';
 import { _throw } from 'rxjs/observable/throw';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, concatMap, catchError } from 'rxjs/operators';
 
 import { User } from './../models/user.model';
 import { UsersAPI } from './../users.config';
@@ -125,7 +125,10 @@ export class UserObservableService {
   deleteUser(user: User): Observable<User[]> {
     const url = `${this.usersUrl}/${user.id}`;
 
-    return this.http.delete(url).pipe(switchMap(() => this.getUsers()));
+    return this.http.delete(url)
+      .pipe(
+        concatMap(() => this.getUsers())
+      );
   }
 
   private handleData(response: HttpResponse<User>) {
