@@ -8,7 +8,7 @@ import {
 
 import { Observable } from 'rxjs/Observable';
 import { _throw } from 'rxjs/observable/throw';
-import { map, switchMap, catchError } from 'rxjs/operators';
+import { map, concatMap, catchError } from 'rxjs/operators';
 
 import { User } from './../models/user.model';
 import { UsersAPI } from './../users.config';
@@ -64,7 +64,7 @@ export class UserObservableService {
 
     return this.http.delete(url)
       .pipe(
-        switchMap(() => this.getUsers())
+        concatMap(() => this.getUsers())
       );
   }
 
