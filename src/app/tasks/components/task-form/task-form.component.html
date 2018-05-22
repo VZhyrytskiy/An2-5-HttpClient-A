@@ -5,7 +5,7 @@
         </h4>
     </div>
     <div class="panel-body">
-        <form *ngIf="task" (ngSubmit)="saveTask()" id="task-form" #form="ngForm">
+        <form *ngIf="task" (ngSubmit)="onSaveTask()" id="task-form" #form="ngForm">
           <div class="form-group">
             <label for="action">Action</label>
             <input type="text"
