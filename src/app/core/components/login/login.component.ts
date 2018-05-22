@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from './../../services/auth.service';
 
@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         // Set our navigation extras object
         // that passes on our global query params and fragment
         const navigationExtras: NavigationExtras = {
-          // preserveQueryParams: true,
           queryParamsHandling: 'preserve', // or 'merge'
           preserveFragment: true
         };
