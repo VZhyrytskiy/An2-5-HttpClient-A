@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-// rxjs
-import { toPromise } from 'rxjs/operator/toPromise';
-
 import { Task } from './../models/task.model';
 
 @Injectable()
