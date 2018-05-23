@@ -35,7 +35,7 @@ export class TaskFormComponent implements OnInit {
       .subscribe(task => (this.task = { ...task }), err => console.log(err));
   }
 
-  saveTask() {
+  onSaveTask() {
     const task = { ...this.task };
 
     const method = task.id ? 'updateTask' : 'createTask';

@@ -9,16 +9,14 @@ import { MessagesService } from './../../services/messages.service';
   styleUrls: ['./messages.component.css']
 })
 export class MessagesComponent implements OnInit {
-
   constructor(
     public messagesService: MessagesService,
     private router: Router
-  ) { }
+  ) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
-  close() {
+  onClose() {
     this.router.navigate([{ outlets: { popup: null } }]);
     this.messagesService.isDisplayed = false;
   }
