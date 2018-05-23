@@ -3,8 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 // rxjs
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { DialogService, CanComponentDeactivate } from './../../../core';
@@ -44,7 +43,7 @@ export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactiv
     }
   }
 
-  saveUser() {
+  onSaveUser() {
     const user = { ...this.user };
 
     const method = user.id ? 'updateUser' : 'createUser';
