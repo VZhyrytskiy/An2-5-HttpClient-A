@@ -3,11 +3,14 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 // rxjs
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
-import { AutoUnsubscribe, DialogService, CanComponentDeactivate } from './../../../core';
+import {
+  AutoUnsubscribe,
+  DialogService,
+  CanComponentDeactivate
+} from './../../../core';
 import { User } from './../../models/user.model';
 import { UserObservableService } from './../../services';
 
@@ -39,21 +42,20 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
-  saveUser() {
+  onSaveUser() {
     const user = { ...this.user };
 
     const method = user.id ? 'updateUser' : 'createUser';
-    this.sub = this.userObservableService[method](user)
-      .subscribe(
-        () => {
-          this.originalUser = {...this.user};
-          user.id
-            // optional parameter: http://localhost:4200/users;editedUserID=2
-            ? this.router.navigate(['users', { editedUserID: user.id }])
-            : this.goBack();
-        },
-        error => console.log(error)
-      );
+    this.sub = this.userObservableService[method](user).subscribe(
+      () => {
+        this.originalUser = { ...this.user };
+        user.id
+          ? // optional parameter: http://localhost:4200/users;editedUserID=2
+            this.router.navigate(['users', { editedUserID: user.id }])
+          : this.goBack();
+      },
+      error => console.log(error)
+    );
   }
 
   goBack() {

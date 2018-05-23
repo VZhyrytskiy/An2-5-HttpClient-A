@@ -48,7 +48,7 @@
           <div class="col-md-2">
             <button class="btn btn-success"
                     *ngIf="!messagesService.isDisplayed"
-                    (click)="displayMessages()">Show Messages</button>
+                    (click)="onDisplayMessages()">Show Messages</button>
             <router-outlet name="popup"></router-outlet>
           </div>
         </div>

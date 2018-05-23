@@ -1,9 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { _throw } from 'rxjs/observable/throw';
-import { map, concatMap, catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { concatMap, catchError } from 'rxjs/operators';
 
 import { User } from './../models/user.model';
 import { UsersAPI } from './../users.config';
@@ -17,16 +16,14 @@ export class UserObservableService {
 
   getUsers(): Observable<User[]> {
     return this.http
-      .get(this.usersUrl)
-      .pipe(map(this.handleData), catchError(this.handleError));
+      .get<User[]>(this.usersUrl)
+      .pipe(catchError(this.handleError));
   }
 
   getUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
 
-    return this.http
-      .get(url)
-      .pipe(map(this.handleData), catchError(this.handleError));
+    return this.http.get<User>(url).pipe(catchError(this.handleError));
   }
 
   // Case 1 Handle Body {observe: 'body'}
@@ -99,8 +96,8 @@ export class UserObservableService {
       };
 
     return this.http
-      .put(url, body, options)
-      .pipe(map(this.handleData), catchError(this.handleError));
+      .put<User>(url, body, options)
+      .pipe(catchError(this.handleError));
   }
 
   createUser(user: User): Observable<User> {
@@ -118,8 +115,8 @@ export class UserObservableService {
       };
 
     return this.http
-      .post(url, body, options)
-      .pipe(map(this.handleData), catchError(this.handleError));
+      .post<User>(url, body, options)
+      .pipe(catchError(this.handleError));
   }
 
   deleteUser(user: User): Observable<User[]> {
@@ -129,11 +126,6 @@ export class UserObservableService {
       .pipe(
         concatMap(() => this.getUsers())
       );
-  }
-
-  private handleData(response: HttpResponse<User>) {
-    const body = response;
-    return body || {};
   }
 
   private handleError(err: HttpErrorResponse) {
@@ -151,6 +143,6 @@ export class UserObservableService {
     }
 
     console.error(errorMessage);
-    return _throw(errorMessage);
+    return throwError(errorMessage);
   }
 }
