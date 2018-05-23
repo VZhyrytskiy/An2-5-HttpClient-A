@@ -10,7 +10,10 @@ const taskList = [
 
 const taskListPromise = Promise.resolve(taskList);
 
-@Injectable()
+@Injectable({
+  // When we provide this service in TasksModule, we get circular dependency
+  providedIn: 'root' // TasksModule
+})
 export class TaskArrayService {
   getTasks(): Promise<Task[]> {
     return taskListPromise;

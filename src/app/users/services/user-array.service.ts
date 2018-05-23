@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 
 // rxjs
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable, of, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { User } from './../models/user.model';
@@ -22,11 +21,10 @@ export class UserArrayService {
   }
 
   getUser(id: number | string): Observable<User> {
-    return this.getUsers()
-      .pipe(
-        map((users: Array<User>) => users.find(user => user.id === +id)),
-        catchError(err => Observable.throw('Error in getUser method'))
-      );
+    return this.getUsers().pipe(
+      map((users: Array<User>) => users.find(user => user.id === +id)),
+      catchError(err => throwError('Error in getUser method'))
+    );
   }
 
   addUser(user: User): void {
