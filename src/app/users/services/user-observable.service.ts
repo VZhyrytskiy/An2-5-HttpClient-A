@@ -1,5 +1,11 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpResponse,
+  HttpErrorResponse,
+  HttpParams
+} from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
 import { concatMap, catchError } from 'rxjs/operators';
@@ -25,68 +31,6 @@ export class UserObservableService {
 
     return this.http.get<User>(url).pipe(catchError(this.handleError));
   }
-
-  // Case 1 Handle Body {observe: 'body'}
-  // getUser(id: number): Observable<User> {
-  //    return this.http.get(`${this.usersUrl}/${id}`, {observe: 'body'})
-  //       .pipe(
-  //         map(this.handleData1),
-  //         catchError(this.handleError)
-  //       );
-  //  }
-
-  // private handleData1(response: User) {
-  //   console.log(response);
-  //   const body = response;
-  //   return body || {};
-  // }
-  // End Case 1
-
-  // Case 2: Handle Response { observe: 'response' }
-  // getUser(id: number): Observable<User> {
-  //   return this.http
-  //     .get(`${this.usersUrl}/${id}`, { observe: 'response' })
-  //     .pipe(map(this.handleData2), catchError(this.handleError));
-  // }
-
-  // private handleData2(response: HttpResponse<User>) {
-  //   console.log(response);
-  //   const body = response.body;
-  //   return body || {};
-  // }
-  // End Case 2
-
-  // Case 3: Specify HttpResponse Type get<T>
-  // getUser(id: number): Observable<User> {
-  //   return this.http.get<User>(`${this.usersUrl}/${id}`)
-  //     .pipe(
-  //       map(this.handleData3),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  // private handleData3(response: User) {
-  //   console.log(response);
-  //   const body = response;
-  //   return body || {};
-  // }
-  // End Case 3
-
-  // Case 4: responseType: text
-  // getUser(id: number): Observable<User> {
-  //   return this.http.get(`${this.usersUrl}/${id}`, {responseType: 'text'})
-  //     .pipe(
-  //       map(this.handleData4),
-  //       catchError(this.handleError)
-  //     );
-  // }
-
-  // private handleData4(response: string) {
-  //   console.log(response);
-  //   const body = JSON.parse(response);
-  //   return body || {};
-  // }
-  // End Case 4
 
   updateUser(user: User): Observable<User> {
     const url = `${this.usersUrl}/${user.id}`,
@@ -122,10 +66,7 @@ export class UserObservableService {
   deleteUser(user: User): Observable<User[]> {
     const url = `${this.usersUrl}/${user.id}`;
 
-    return this.http.delete(url)
-      .pipe(
-        concatMap(() => this.getUsers())
-      );
+    return this.http.delete(url).pipe(concatMap(() => this.getUsers()));
   }
 
   private handleError(err: HttpErrorResponse) {
