@@ -6,8 +6,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { _throw } from 'rxjs/observable/throw';
+import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 import { User } from './../models/user.model';
@@ -22,16 +21,14 @@ export class UserObservableService {
 
   getUsers(): Observable<User[]> {
     return this.http
-      .get(this.usersUrl)
-      .pipe(map(this.handleData), catchError(this.handleError));
+      .get<User[]>(this.usersUrl)
+      .pipe(catchError(this.handleError));
   }
 
   getUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
 
-    return this.http
-      .get(url)
-      .pipe(map(this.handleData), catchError(this.handleError));
+    return this.http.get<User>(url).pipe(catchError(this.handleError));
   }
 
   updateUser(user: User) {}
@@ -39,11 +36,6 @@ export class UserObservableService {
   createUser(user: User) {}
 
   deleteUser(user: User) {}
-
-  private handleData(response: HttpResponse<User>) {
-    const body = response;
-    return body || {};
-  }
 
   private handleError(err: HttpErrorResponse) {
     let errorMessage: string;
@@ -60,6 +52,6 @@ export class UserObservableService {
     }
 
     console.error(errorMessage);
-    return _throw(errorMessage);
+    return throwError(errorMessage);
   }
 }

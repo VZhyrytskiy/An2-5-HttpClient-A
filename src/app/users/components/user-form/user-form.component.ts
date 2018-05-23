@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 
 // rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { DialogService, CanComponentDeactivate } from './../../../core';
@@ -33,7 +33,7 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate {
     });
   }
 
-  saveUser() {
+  onSaveUser() {
     const user = { ...this.user };
 
     if (user.id) {
