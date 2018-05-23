@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-// rxjs
-import { toPromise } from 'rxjs/operator/toPromise';
-
 import { Task } from './../models/task.model';
 
 @Injectable()
@@ -45,7 +42,7 @@ export class TaskPromiseService {
   }
 
   createTask(task: Task): Promise<Task> {
-    const url = this.tasksUrl + 1,
+    const url = this.tasksUrl,
       body = JSON.stringify(task),
       options = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })

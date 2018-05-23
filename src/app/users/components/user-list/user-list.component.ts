@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
 // rxjs
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { User } from './../../models/user.model';
