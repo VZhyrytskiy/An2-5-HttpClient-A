@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 // rxjs
-import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { pluck } from 'rxjs/operators';
 
 import { DialogService, CanComponentDeactivate } from './../../../core';
-import { User } from './../../models/user.model';
+import { UserModel } from './../../models/user.model';
 import { UserArrayService } from './../../services/user-array.service';
 
 @Component({
@@ -14,8 +14,8 @@ import { UserArrayService } from './../../services/user-array.service';
   styleUrls: ['./user-form.component.css']
 })
 export class UserFormComponent implements OnInit, CanComponentDeactivate {
-  user: User;
-  originalUser: User;
+  user: UserModel;
+  originalUser: UserModel;
 
   constructor(
     private userArrayService: UserArrayService,
@@ -27,9 +27,9 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate {
   ngOnInit(): void {
     // data is an observable object
     // which contains custom and resolve data
-    this.route.data.subscribe(data => {
-      this.user = { ...data.user };
-      this.originalUser = { ...data.user };
+    this.route.data.pipe(pluck('user')).subscribe((user: UserModel) => {
+      this.user = { ...user };
+      this.originalUser = { ...user };
     });
   }
 
@@ -41,13 +41,13 @@ export class UserFormComponent implements OnInit, CanComponentDeactivate {
       // optional parameter: http://localhost:4200/users;id=2
       this.router.navigate(['/users', { editedUserID: user.id }]);
     } else {
-      this.userArrayService.addUser(user);
-      this.goBack();
+      this.userArrayService.createUser(user);
+      this.onGoBack();
     }
     this.originalUser = { ...this.user };
   }
 
-  goBack() {
+  onGoBack() {
     this.router.navigate(['./../../'], { relativeTo: this.route });
   }
 
