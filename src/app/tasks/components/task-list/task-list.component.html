@@ -1,5 +1,5 @@
 <app-task 
-  *ngFor="let task of tasks" 
+  *ngFor="let task of tasks | async" 
   [task]="task"
   (completeTask)="onCompleteTask($event)"
   (editTask)="onEditTask($event)">
