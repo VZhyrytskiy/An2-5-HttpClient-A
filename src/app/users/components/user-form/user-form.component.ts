@@ -1,22 +1,23 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 // rxjs
 import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { pluck } from 'rxjs/operators';
 
+import { UserModel } from './../../models/user.model';
 import { DialogService, CanComponentDeactivate } from './../../../core';
-import { User } from './../../models/user.model';
 import { UserObservableService } from './../../services';
 
 @Component({
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.css']
 })
-export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactivate {
-  user: User;
-  originalUser: User;
+export class UserFormComponent
+  implements OnInit, OnDestroy, CanComponentDeactivate {
+  user: UserModel;
+  originalUser: UserModel;
 
   private sub: Subscription;
 
@@ -31,15 +32,15 @@ export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactiv
   ngOnInit(): void {
     // data is an observable object
     // which contains custom and resolve data
-    this.route.data.subscribe(data => {
-      this.user = { ...data.user };
-      this.originalUser = { ...data.user };
+    this.route.data.pipe(pluck('user')).subscribe((user: UserModel) => {
+      this.user = { ...user };
+      this.originalUser = { ...user };
     });
   }
 
   ngOnDestroy(): void {
     if (this.sub) {
-       this.sub.unsubscribe();
+      this.sub.unsubscribe();
     }
   }
 
@@ -47,20 +48,19 @@ export class UserFormComponent implements OnInit, OnDestroy, CanComponentDeactiv
     const user = { ...this.user };
 
     const method = user.id ? 'updateUser' : 'createUser';
-    this.sub = this.userObservableService[method](user)
-      .subscribe(
-        () => {
-          this.originalUser = {...this.user};
-          user.id
-            // optional parameter: http://localhost:4200/users;editedUserID=2
-            ? this.router.navigate(['users', { editedUserID: user.id }])
-            : this.goBack();
-        },
-        error => console.log(error)
-      );
+    this.sub = this.userObservableService[method](user).subscribe(
+      () => {
+        this.originalUser = { ...this.user };
+        user.id
+          ? // optional parameter: http://localhost:4200/users;editedUserID=2
+            this.router.navigate(['users', { editedUserID: user.id }])
+          : this.onGoBack();
+      },
+      error => console.log(error)
+    );
   }
 
-  goBack() {
+  onGoBack() {
     this.location.back();
   }
 
