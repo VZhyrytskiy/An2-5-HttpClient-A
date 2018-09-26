@@ -9,29 +9,32 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-import { User } from './../models/user.model';
+import { UserModel } from './../models/user.model';
 import { UsersAPI } from './../users.config';
+import { UsersServicesModule } from '../users-services.module';
 
-@Injectable()
+@Injectable({
+  providedIn: UsersServicesModule
+})
 export class UserObservableService {
   constructor(
     private http: HttpClient,
     @Inject(UsersAPI) private usersUrl: string
   ) {}
 
-  getUsers(): Observable<User[]> {
+  getUsers(): Observable<UserModel[]> {
     return this.http
-      .get<User[]>(this.usersUrl)
+      .get<UserModel[]>(this.usersUrl)
       .pipe(catchError(this.handleError));
   }
 
   getUser(id: number) {}
 
-  updateUser(user: User) {}
+  updateUser(user: UserModel) {}
 
-  createUser(user: User) {}
+  createUser(user: UserModel) {}
 
-  deleteUser(user: User) {}
+  deleteUser(user: UserModel) {}
 
   private handleError(err: HttpErrorResponse) {
     let errorMessage: string;
