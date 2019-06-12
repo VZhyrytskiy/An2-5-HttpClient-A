@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 // rxjs
 import { switchMap } from 'rxjs/operators';
@@ -24,10 +24,10 @@ export class TaskFormComponent implements OnInit {
     this.task = new TaskModel();
 
     // it is not necessary to save subscription to route.paramMap
-    // it handles automatically
+    // when router destroys this component, it handles subscriptions automatically
     this.route.paramMap
       .pipe(
-        switchMap((params: Params) =>
+        switchMap((params: ParamMap) =>
           this.taskArrayService.getTask(+params.get('taskID'))
         )
       )
