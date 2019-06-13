@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 // rxjs
 import { switchMap } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class TaskFormComponent implements OnInit {
 
     this.route.paramMap
       .pipe(
-        switchMap((params: Params) =>
+        switchMap((params: ParamMap) =>
           this.taskPromiseService.getTask(+params.get('taskID'))
         )
       )
