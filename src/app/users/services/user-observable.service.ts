@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 
 import { UserModel } from './../models/user.model';
 import { UsersAPI } from './../users.config';
@@ -23,9 +23,10 @@ export class UserObservableService {
   ) {}
 
   getUsers(): Observable<UserModel[]> {
-    return this.http
-      .get<UserModel[]>(this.usersUrl)
-      .pipe(catchError(this.handleError));
+    return this.http.get<UserModel[]>(this.usersUrl).pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
   }
 
   getUser(id: number) {}
@@ -37,20 +38,15 @@ export class UserObservableService {
   deleteUser(user: UserModel) {}
 
   private handleError(err: HttpErrorResponse) {
-    let errorMessage: string;
-
     // A client-side or network error occurred.
     if (err.error instanceof Error) {
-      errorMessage = `An error occurred: ${err.error.message}`;
+      console.error('An error occurred:', err.error.message);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      errorMessage = `Backend returned code ${err.status}, body was: ${
-        err.error
-      }`;
+      console.error(`Backend returned code ${err.status}, body was: ${err.error}`);
     }
 
-    console.error(errorMessage);
-    return throwError(errorMessage);
+    return throwError('Something bad happened; please try again later.');
   }
 }

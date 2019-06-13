@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 // rxjs
 import { Observable } from 'rxjs';
@@ -30,7 +30,7 @@ export class UserListComponent implements OnInit {
     // listen editedUserID from UserFormComponent
     this.route.paramMap
       .pipe(
-        switchMap((params: Params) =>
+        switchMap((params: ParamMap) =>
           this.userArrayService.getUser(+params.get('editedUserID'))
         )
       )
@@ -53,7 +53,7 @@ export class UserListComponent implements OnInit {
     // this.router.navigate(link, {relativeTo: this.route});
   }
 
-  isEdited(user: UserModel) {
+  isEdited(user: UserModel): boolean {
     if (this.editedUser) {
       return user.id === this.editedUser.id;
     }
