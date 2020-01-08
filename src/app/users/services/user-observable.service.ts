@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError, retry, publish, refCount } from 'rxjs/operators';
+import { catchError, retry, publish, refCount, share } from 'rxjs/operators';
 
 import { UserModel } from './../models/user.model';
 import { UsersAPI } from './../users.config';
@@ -36,6 +36,7 @@ export class UserObservableService {
 
     return this.http.get<UserModel>(url).pipe(
       retry(3),
+      share(), // = publish() + refCount()
       catchError(this.handleError)
     );
   }
