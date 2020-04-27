@@ -24,7 +24,7 @@ export class UserListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.users$ = this.userObservableService.users$;
+    this.users$ = this.userObservableService.getUsers();
 
     // listen editedUserID from UserFormComponent
     const observer = {
