@@ -21,12 +21,14 @@ export class UserObservableService {
     @Inject(UsersAPI) private usersUrl: string
   ) {}
 
-  users$: Observable<UserModel[]> = this.http.get<UserModel[]>(this.usersUrl).pipe(
+  getUsers(): Observable<UserModel[]> {
+    return this.http.get<UserModel[]>(this.usersUrl).pipe(
       retry(3),
       publish(),
       refCount(),
       catchError(this.handleError)
-  );
+    );
+  }
 
   getUser(id: number): Observable<UserModel> {
     const url = `${this.usersUrl}/${id}`;
