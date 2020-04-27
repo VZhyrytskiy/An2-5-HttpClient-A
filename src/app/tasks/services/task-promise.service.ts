@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { TaskModel } from './../models/task.model';
-import { TasksServicesModule } from '../tasks-services.module';
 
 @Injectable({
-  providedIn: TasksServicesModule
+  providedIn: 'any'
 })
 export class TaskPromiseService {
   private tasksUrl = 'http://localhost:3000/tasks';
@@ -16,7 +15,7 @@ export class TaskPromiseService {
     return this.http
       .get(this.tasksUrl)
       .toPromise()
-      .then(response => <TaskModel[]>response)
+      .then(response => response as TaskModel[])
       .catch(this.handleError);
   }
 
