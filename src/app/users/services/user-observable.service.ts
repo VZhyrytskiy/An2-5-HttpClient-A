@@ -65,7 +65,7 @@ export class UserObservableService {
   deleteUser(user: UserModel): Observable<UserModel[]> {
     const url = `${this.usersUrl}/${user.id}`;
 
-    return this.http.delete(url).pipe(concatMap(() => this.getUsers()));
+    return this.http.delete(url).pipe(concatMap(() => this.users$));
   }
 
   private handleError(err: HttpErrorResponse) {
