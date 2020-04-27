@@ -25,7 +25,7 @@ export class TaskPromiseService {
     return this.http
       .get(url)
       .toPromise()
-      .then(response => <TaskModel>response)
+      .then(response => response as TaskModel)
       .catch(this.handleError);
   }
 
