@@ -21,7 +21,7 @@ export class UserObservableService {
     @Inject(UsersAPI) private usersUrl: string
   ) {}
 
-  users$ = this.http.get<UserModel[]>(this.usersUrl).pipe(
+  users$: Observable<UserModel[]> = this.http.get<UserModel[]>(this.usersUrl).pipe(
       retry(3),
       publish(),
       refCount(),

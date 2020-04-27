@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { UsersRoutingModule } from './users-routing.module';
 
 import { UserComponent } from './components';
-import { UsersAPIProvider } from './users.config';
 
 @NgModule({
   imports: [
@@ -13,7 +12,6 @@ import { UsersAPIProvider } from './users.config';
     FormsModule,
     UsersRoutingModule
   ],
-  providers: [UsersAPIProvider],
   declarations: [UsersRoutingModule.components, UserComponent]
 })
 export class UsersModule {}
