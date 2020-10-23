@@ -39,9 +39,7 @@ export class UserFormComponent
   }
 
   ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
+    this.sub?.unsubscribe();
   }
 
   onSaveUser() {
