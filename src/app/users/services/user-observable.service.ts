@@ -11,6 +11,7 @@ import { concatMap, catchError, retry, publish, refCount, share } from 'rxjs/ope
 
 import { UserModel } from './../models/user.model';
 import { UsersAPI } from './../users.config';
+import { createInject } from '@angular/compiler/src/core';
 
 @Injectable({
   providedIn: 'any'
@@ -67,7 +68,10 @@ export class UserObservableService {
   deleteUser(user: UserModel): Observable<UserModel[]> {
     const url = `${this.usersUrl}/${user.id}`;
 
-    return this.http.delete(url).pipe(concatMap(() => this.getUsers()));
+    return this.http.delete(url).pipe(
+      concatMap(() => this.getUsers()),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(err: HttpErrorResponse) {
