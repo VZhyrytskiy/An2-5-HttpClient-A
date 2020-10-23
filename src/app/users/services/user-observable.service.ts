@@ -11,7 +11,6 @@ import { concatMap, catchError, retry, publish, refCount, share } from 'rxjs/ope
 
 import { UserModel } from './../models/user.model';
 import { UsersAPI } from './../users.config';
-import { createInject } from '@angular/compiler/src/core';
 
 @Injectable({
   providedIn: 'any'
