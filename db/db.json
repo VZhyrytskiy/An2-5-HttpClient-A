@@ -3,7 +3,7 @@
     {
       "id": 1,
       "action": "Estimate",
-      "priority": 1,
+      "priority": 3,
       "estHours": 8
     },
     {
